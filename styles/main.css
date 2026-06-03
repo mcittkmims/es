@@ -125,10 +125,10 @@ label {
   margin-top: 18px;
 }
 
-.variant-stepper {
+.variant-picker {
   display: grid;
   gap: 8px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(92px, auto) 1fr minmax(72px, auto);
   margin-top: 8px;
 }
 
@@ -148,7 +148,6 @@ select:focus-visible,
 input:focus-visible,
 button:focus-visible,
 a:focus-visible,
-summary:focus-visible,
 .task-card:focus-visible {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px var(--focus);
@@ -297,17 +296,26 @@ button:disabled {
   white-space: pre-wrap;
 }
 
-summary {
-  cursor: pointer;
+.section-toggle {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  color: var(--primary);
+  display: inline-flex;
   font-size: 13px;
   font-weight: 700;
-  list-style-position: outside;
   min-height: 32px;
+  padding: 0 2px;
 }
 
-summary + .condition,
-summary + .answer,
-summary + .images {
+.section-toggle:hover {
+  background: transparent;
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.section-content {
   margin-top: 10px;
 }
 
@@ -504,11 +512,12 @@ code {
     margin-top: 8px;
   }
 
-  .variant-stepper {
+  .variant-picker {
     gap: 6px;
+    grid-template-columns: minmax(72px, auto) 1fr minmax(56px, auto);
   }
 
-  .variant-stepper button {
+  .variant-picker button {
     padding-inline: 8px;
   }
 
@@ -588,14 +597,87 @@ code {
 }
 
 @media (max-width: 390px) and (max-height: 450px) {
+  :root {
+    --control-height: 40px;
+  }
+
   .sidebar {
-    max-height: 48vh;
-    overflow-y: auto;
+    max-height: none;
+    overflow: visible;
     overscroll-behavior: contain;
+    padding: 6px 8px;
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .field-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .variant-picker {
+    grid-template-columns: 46px 1fr 46px;
+    margin-top: 0;
+  }
+
+  #prevVariant,
+  #nextVariant {
+    font-size: 0;
+    padding: 0;
+  }
+
+  #prevVariant::before {
+    content: "Prev";
+    font-size: 12px;
+  }
+
+  #nextVariant::before {
+    content: "Next";
+    font-size: 12px;
+  }
+
+  select,
+  input,
+  button {
+    border-radius: 7px;
+    min-height: var(--control-height);
+  }
+
+  select,
+  input {
+    padding-block: 8px;
+  }
+
+  .control-group + .control-group {
+    margin-top: 6px;
+  }
+
+  #searchInput {
+    min-height: 38px;
+    padding-block: 7px;
+  }
+
+  .search-meta {
+    display: none;
   }
 
   .search-results {
     max-height: 92px;
+  }
+
+  .result-button {
+    min-height: 38px;
+    padding: 8px 10px;
+  }
+
+  .result-button span {
+    display: none;
   }
 
   .topbar {
@@ -603,11 +685,26 @@ code {
   }
 
   .task-nav {
+    gap: 6px;
+    padding-block: 6px;
     top: 0;
   }
 
-  summary {
+  .task-nav-link {
     min-height: 38px;
+    padding: 8px 10px;
+  }
+
+  .task-header {
+    padding: 10px;
+  }
+
+  .task-header p {
+    display: none;
+  }
+
+  .section-toggle {
+    min-height: 34px;
   }
 }
 

@@ -68,6 +68,19 @@ function wireEvents() {
     showVariant(button.dataset.variant, button.dataset.task);
   });
 
+  els.tasks.addEventListener("click", (event) => {
+    const button = event.target.closest(".section-toggle");
+    if (!button) return;
+
+    const content = document.getElementById(button.getAttribute("aria-controls"));
+    const expanded = button.getAttribute("aria-expanded") === "true";
+    const label = button.dataset.label;
+
+    button.setAttribute("aria-expanded", String(!expanded));
+    button.textContent = `${expanded ? "Show" : "Hide"} ${label}`;
+    content.hidden = expanded;
+  });
+
   els.taskNav.addEventListener("click", (event) => {
     const link = event.target.closest(".task-nav-link");
     if (!link) return;

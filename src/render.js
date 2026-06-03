@@ -78,6 +78,21 @@ export function renderImage(image) {
   `;
 }
 
+function renderSection({ content, hidden = false, id, label, modifier = "" }) {
+  const buttonText = hidden ? `Show ${label}` : `Hide ${label}`;
+
+  return `
+    <section class="section-block ${modifier}">
+      <button class="section-toggle" type="button" aria-expanded="${hidden ? "false" : "true"}" aria-controls="${id}" data-label="${escapeAttribute(label)}">
+        ${escapeHtml(buttonText)}
+      </button>
+      <div class="section-content" id="${id}" ${hidden ? "hidden" : ""}>
+        ${content}
+      </div>
+    </section>
+  `;
+}
+
 function renderTaskNav(entries) {
   return entries
     .map(({ key, label, title }) => `
@@ -103,13 +118,17 @@ export function renderVariant(els, variant, highlightTaskKey = null) {
       const coverScreenMode = window.matchMedia("(max-width: 390px) and (max-height: 450px)").matches;
       const images = Array.isArray(task.images) ? task.images : [];
       const condition = conditionText(task.condition);
+      const conditionId = `${key}_condition`;
+      const answerId = `${key}_answer`;
+      const imagesId = `${key}_images`;
       const imageMarkup = images.length
-        ? `
-          <details class="section-block image-block">
-            <summary>Images (${images.length})</summary>
-            <div class="images">${images.map(renderImage).join("")}</div>
-          </details>
-        `
+        ? renderSection({
+            content: `<div class="images">${images.map(renderImage).join("")}</div>`,
+            hidden: true,
+            id: imagesId,
+            label: `Images (${images.length})`,
+            modifier: "image-block",
+          })
         : "";
 
       return `
@@ -118,14 +137,18 @@ export function renderVariant(els, variant, highlightTaskKey = null) {
             <h3>${escapeHtml(label)}</h3>
             <p>${escapeHtml(title)}</p>
           </div>
-          <details class="section-block" ${coverScreenMode ? "" : "open"}>
-            <summary>Condition</summary>
-            <div class="condition">${escapeHtml(condition)}</div>
-          </details>
-          <details class="section-block answer-block" open>
-            <summary>Answer</summary>
-            <div class="answer">${renderAnswerText(task.exam_text)}</div>
-          </details>
+          ${renderSection({
+            content: `<div class="condition">${escapeHtml(condition)}</div>`,
+            hidden: coverScreenMode,
+            id: conditionId,
+            label: "Condition",
+          })}
+          ${renderSection({
+            content: `<div class="answer">${renderAnswerText(task.exam_text)}</div>`,
+            id: answerId,
+            label: "Answer",
+            modifier: "answer-block",
+          })}
           ${imageMarkup}
         </article>
       `;
