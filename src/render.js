@@ -78,35 +78,54 @@ export function renderImage(image) {
   `;
 }
 
+function renderTaskNav(entries) {
+  return entries
+    .map(({ key, label, title }) => `
+      <a class="task-nav-link" href="#${key}" aria-label="Jump to ${escapeAttribute(label)}: ${escapeAttribute(title)}">
+        ${escapeHtml(label)}
+      </a>
+    `)
+    .join("");
+}
+
 export function renderVariant(els, variant, highlightTaskKey = null) {
   if (!variant) return;
 
+  const entries = taskEntries(variant);
+
   els.variantSelect.value = String(variant.variant);
   els.variantTitle.textContent = `Variant ${variant.variant}`;
-  els.variantSubtitle.textContent = `${taskEntries(variant).length} tasks with conditions, answers, and diagrams`;
+  els.variantSubtitle.textContent = `${entries.length} tasks with conditions, answers, and diagrams`;
+  els.taskNav.innerHTML = renderTaskNav(entries);
 
-  els.tasks.innerHTML = taskEntries(variant)
+  els.tasks.innerHTML = entries
     .map(({ key, task, label, title }) => {
+      const coverScreenMode = window.matchMedia("(max-width: 390px) and (max-height: 450px)").matches;
       const images = Array.isArray(task.images) ? task.images : [];
       const condition = conditionText(task.condition);
       const imageMarkup = images.length
-        ? `<div class="images">${images.map(renderImage).join("")}</div>`
+        ? `
+          <details class="section-block image-block">
+            <summary>Images (${images.length})</summary>
+            <div class="images">${images.map(renderImage).join("")}</div>
+          </details>
+        `
         : "";
 
       return `
-        <article class="task-card ${key === highlightTaskKey ? "highlighted" : ""}" id="${key}">
+        <article class="task-card ${key === highlightTaskKey ? "highlighted" : ""}" id="${key}" tabindex="-1">
           <div class="task-header">
             <h3>${escapeHtml(label)}</h3>
             <p>${escapeHtml(title)}</p>
           </div>
-          <div class="section-block">
-            <h4>Condition</h4>
+          <details class="section-block" ${coverScreenMode ? "" : "open"}>
+            <summary>Condition</summary>
             <div class="condition">${escapeHtml(condition)}</div>
-          </div>
-          <div class="section-block answer-block">
-            <h4>Answer</h4>
+          </details>
+          <details class="section-block answer-block" open>
+            <summary>Answer</summary>
             <div class="answer">${renderAnswerText(task.exam_text)}</div>
-          </div>
+          </details>
           ${imageMarkup}
         </article>
       `;
@@ -114,9 +133,11 @@ export function renderVariant(els, variant, highlightTaskKey = null) {
     .join("");
 
   if (highlightTaskKey) {
-    document.querySelector(`#${highlightTaskKey}`)?.scrollIntoView({
+    const highlightedTask = document.querySelector(`#${highlightTaskKey}`);
+    highlightedTask?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
+    highlightedTask?.focus({ preventScroll: true });
   }
 }

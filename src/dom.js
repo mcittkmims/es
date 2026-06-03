@@ -1,9 +1,12 @@
 export const els = {
   clearSearch: document.querySelector("#clearSearch"),
   error: document.querySelector("#loadingError"),
+  nextVariant: document.querySelector("#nextVariant"),
+  prevVariant: document.querySelector("#prevVariant"),
   searchInput: document.querySelector("#searchInput"),
   searchMeta: document.querySelector("#searchMeta"),
   searchResults: document.querySelector("#searchResults"),
+  taskNav: document.querySelector("#taskNav"),
   tasks: document.querySelector("#tasks"),
   variantSelect: document.querySelector("#variantSelect"),
   variantSubtitle: document.querySelector("#variantSubtitle"),

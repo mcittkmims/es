@@ -8,6 +8,8 @@
   --primary: #9a4f12;
   --focus: rgba(154, 79, 18, 0.22);
   --code: #27211d;
+  --control-height: 44px;
+  --sticky-top: 0px;
 }
 
 * {
@@ -25,10 +27,32 @@ body {
   min-height: 100vh;
 }
 
+body,
+input,
+select,
+button {
+  font-size: 16px;
+}
+
 button,
 input,
 select {
   font: inherit;
+}
+
+.skip-link {
+  background: var(--text);
+  color: var(--surface);
+  left: 12px;
+  padding: 10px 12px;
+  position: fixed;
+  top: 12px;
+  transform: translateY(-160%);
+  z-index: 20;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 .app-shell {
@@ -93,8 +117,19 @@ h4 {
 
 label {
   display: block;
-  margin: 18px 0 8px;
+  margin: 0 0 8px;
   font-weight: 700;
+}
+
+.control-group + .control-group {
+  margin-top: 18px;
+}
+
+.variant-stepper {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 8px;
 }
 
 select,
@@ -104,15 +139,20 @@ input {
   border-radius: 9px;
   background: var(--surface);
   color: var(--text);
+  min-height: var(--control-height);
   padding: 11px 12px;
   outline: none;
 }
 
-select:focus,
-input:focus,
-button:focus {
+select:focus-visible,
+input:focus-visible,
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible,
+.task-card:focus-visible {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px var(--focus);
+  outline: 0;
 }
 
 .search-meta {
@@ -124,6 +164,9 @@ button:focus {
   display: grid;
   gap: 8px;
   margin-top: 10px;
+  max-height: 48vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .result-button {
@@ -133,6 +176,7 @@ button:focus {
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
+  min-height: var(--control-height);
   padding: 10px;
   text-align: left;
 }
@@ -177,6 +221,7 @@ button {
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
+  min-height: var(--control-height);
   padding: 10px 12px;
 }
 
@@ -184,10 +229,39 @@ button:hover {
   background: var(--surface-muted);
 }
 
+button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .tasks {
   display: grid;
   gap: 18px;
   margin-top: 24px;
+}
+
+.task-nav {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+
+.task-nav-link {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--text);
+  flex: 0 0 auto;
+  min-height: var(--control-height);
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.task-nav-link:hover {
+  background: var(--surface-muted);
 }
 
 .task-card,
@@ -221,6 +295,20 @@ button:hover {
   color: #493a2f;
   line-height: 1.55;
   white-space: pre-wrap;
+}
+
+summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  list-style-position: outside;
+  min-height: 32px;
+}
+
+summary + .condition,
+summary + .answer,
+summary + .images {
+  margin-top: 10px;
 }
 
 .answer {
@@ -294,10 +382,8 @@ button:hover {
 }
 
 .images {
-  border-top: 1px solid var(--border);
   display: grid;
   gap: 14px;
-  padding: 18px;
 }
 
 figure {
@@ -348,6 +434,9 @@ code {
   .sidebar {
     border-right: 0;
     border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
   .content {
@@ -357,5 +446,187 @@ code {
   .topbar {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .task-nav {
+    background: var(--background);
+    border-bottom: 1px solid var(--border);
+    margin-inline: -20px;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 8;
+  }
+}
+
+@media (max-width: 430px) {
+  :root {
+    --control-height: 46px;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .sidebar {
+    padding: 10px;
+  }
+
+  .brand {
+    border-bottom: 0;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+  }
+
+  .brand p,
+  #variantSubtitle {
+    display: none;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .control-group + .control-group {
+    margin-top: 8px;
+  }
+
+  .variant-stepper {
+    gap: 6px;
+  }
+
+  .variant-stepper button {
+    padding-inline: 8px;
+  }
+
+  .search-meta {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .search-results {
+    max-height: 136px;
+  }
+
+  .result-button span {
+    font-size: 12px;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .topbar {
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  .topbar button {
+    width: 100%;
+  }
+
+  .task-nav {
+    margin-inline: -10px;
+    padding: 8px 10px;
+  }
+
+  .task-nav-link {
+    padding: 10px;
+  }
+
+  .tasks {
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .task-card,
+  .error-card {
+    border-radius: 9px;
+  }
+
+  .task-header {
+    padding: 12px;
+  }
+
+  .task-header p {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .section-block {
+    padding: 12px;
+  }
+
+  .condition,
+  .answer-prose {
+    line-height: 1.48;
+  }
+
+  .code-block {
+    border-left-width: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 10px;
+  }
+
+  .caption {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 390px) and (max-height: 450px) {
+  .sidebar {
+    max-height: 48vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .search-results {
+    max-height: 92px;
+  }
+
+  .topbar {
+    display: none;
+  }
+
+  .task-nav {
+    top: 0;
+  }
+
+  summary {
+    min-height: 38px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  select,
+  input,
+  button,
+  .task-card,
+  .result-button,
+  .task-nav-link,
+  .code-block {
+    border: 1px solid CanvasText;
   }
 }

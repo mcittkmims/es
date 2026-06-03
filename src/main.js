@@ -25,12 +25,33 @@ function renderSearch() {
 
 function showVariant(number, highlightTaskKey = null) {
   renderVariant(els, findVariant(variants, number), highlightTaskKey);
+  const currentIndex = variants.findIndex((variant) => variant.variant === Number(els.variantSelect.value));
+  els.prevVariant.disabled = currentIndex <= 0;
+  els.nextVariant.disabled = currentIndex === -1 || currentIndex >= variants.length - 1;
+}
+
+function moveVariant(direction) {
+  const currentIndex = variants.findIndex((variant) => variant.variant === Number(els.variantSelect.value));
+  if (currentIndex === -1) return;
+
+  const nextIndex = Math.min(Math.max(currentIndex + direction, 0), variants.length - 1);
+  showVariant(variants[nextIndex].variant);
+}
+
+function hideSearchResultsOnSmallScreens() {
+  if (window.matchMedia("(max-width: 430px)").matches && els.searchInput.value.trim()) {
+    els.searchResults.scrollTop = 0;
+  }
 }
 
 function wireEvents() {
   els.variantSelect.addEventListener("change", (event) => {
     showVariant(event.target.value);
+    hideSearchResultsOnSmallScreens();
   });
+
+  els.prevVariant.addEventListener("click", () => moveVariant(-1));
+  els.nextVariant.addEventListener("click", () => moveVariant(1));
 
   els.searchInput.addEventListener("input", renderSearch);
 
@@ -45,6 +66,14 @@ function wireEvents() {
     if (!button) return;
 
     showVariant(button.dataset.variant, button.dataset.task);
+  });
+
+  els.taskNav.addEventListener("click", (event) => {
+    const link = event.target.closest(".task-nav-link");
+    if (!link) return;
+
+    const task = document.querySelector(link.getAttribute("href"));
+    task?.focus({ preventScroll: true });
   });
 }
 
