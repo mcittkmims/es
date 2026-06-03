@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SI Exam Variants</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%239a4f12'/%3E%3Cpath d='M18 18h28v5H18zm0 11h28v5H18zm0 11h19v5H18z' fill='%23fff8ef'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <h1>SI Exam Variants</h1>
+          <p>Browse variants, conditions, answers, and diagrams from one place.</p>
+        </div>
+
+        <label for="variantSelect">Variant</label>
+        <select id="variantSelect"></select>
+
+        <label for="searchInput">Search all questions</label>
+        <input id="searchInput" type="search" placeholder="Example: senzori, STDIO, PID">
+
+        <div class="search-meta" id="searchMeta"></div>
+        <div class="search-results" id="searchResults"></div>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div>
+            <h2 id="variantTitle">Loading...</h2>
+            <p id="variantSubtitle"></p>
+          </div>
+          <button id="clearSearch" type="button">Clear search</button>
+        </div>
+
+        <section id="tasks" class="tasks"></section>
+
+        <section id="loadingError" class="error-card" hidden>
+          <h2>Could not load the exam data</h2>
+          <p>Start a small local server in this folder:</p>
+          <code>python3 -m http.server 8000</code>
+          <p>Then open <code>http://localhost:8000</code>.</p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
