@@ -18,8 +18,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -110,18 +110,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v01_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v01_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v01_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v01_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v01_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v01_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -151,8 +141,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -253,18 +243,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v02_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v02_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v02_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v02_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v02_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v02_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -294,8 +274,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -386,18 +366,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v03_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v03_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v03_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v03_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v03_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v03_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -427,8 +397,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -519,22 +489,22 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v04_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v04_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v04_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v04_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v04_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v04_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
               "en": "Program block diagram"
+            }
+          },
+          {
+            "path": {
+              "ro": "images/bilingual/task3_block_diagrams/v04_state_machine_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v04_state_machine_en.png"
+            },
+            "caption": {
+              "ro": "Diagrama mașinii de stări",
+              "en": "State machine diagram"
             }
           }
         ]
@@ -560,8 +530,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -652,18 +622,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v05_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v05_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v05_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v05_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v05_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v05_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -693,8 +653,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -765,18 +725,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v06_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v06_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v06_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v06_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v06_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v06_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -806,8 +756,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -888,22 +838,22 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v07_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v07_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v07_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v07_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v07_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v07_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
               "en": "Program block diagram"
+            }
+          },
+          {
+            "path": {
+              "ro": "images/bilingual/task3_block_diagrams/v07_state_machine_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v07_state_machine_en.png"
+            },
+            "caption": {
+              "ro": "Diagrama mașinii de stări",
+              "en": "State machine diagram"
             }
           }
         ]
@@ -929,8 +879,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1031,18 +981,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v08_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v08_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v08_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v08_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v08_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v08_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -1072,8 +1012,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1154,18 +1094,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v09_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v09_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v09_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v09_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v09_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v09_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -1195,8 +1125,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1297,18 +1227,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v10_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v10_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v10_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v10_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v10_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v10_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -1338,8 +1258,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1430,18 +1350,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v11_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v11_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v11_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v11_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v11_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v11_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -1471,8 +1381,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1573,18 +1483,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v12_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v12_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v12_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v12_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v12_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v12_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -1614,8 +1514,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1706,18 +1606,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v14_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v14_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v14_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v14_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v14_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v14_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -1747,8 +1637,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1839,18 +1729,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v15_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v15_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v15_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v15_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v15_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v15_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
@@ -1880,8 +1760,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task1/task1_generic_iot_original_ro.png",
-              "en": "images/bilingual/task1/task1_generic_iot_architecture_en.png"
+              "ro": "images/bilingual/task1/task1_generic_iot_original.png",
+              "en": "images/bilingual/task1/task1_generic_iot_original.png"
             },
             "caption": {
               "ro": "Diagrama arhitecturii IoT",
@@ -1962,18 +1842,8 @@
         "images": [
           {
             "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v16_electrical_paper_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v16_electrical_paper_en.png"
-            },
-            "caption": {
-              "ro": "Diagrama electrica",
-              "en": "Electrical diagram"
-            }
-          },
-          {
-            "path": {
-              "ro": "images/bilingual/task3_diagrams_paper/v16_program_flow_ro.png",
-              "en": "images/bilingual/task3_diagrams_paper/v16_program_flow_en.png"
+              "ro": "images/bilingual/task3_block_diagrams/v16_program_block_ro.png",
+              "en": "images/bilingual/task3_block_diagrams/v16_program_block_en.png"
             },
             "caption": {
               "ro": "Diagrama bloc program",
