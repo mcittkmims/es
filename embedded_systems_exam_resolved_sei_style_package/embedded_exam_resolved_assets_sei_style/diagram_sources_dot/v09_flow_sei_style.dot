@@ -1,0 +1,29 @@
+digraph G {
+graph [rankdir=TB, bgcolor="white", labelloc="t", label="Varianta 9 - schemă bloc funcțională / flux program", fontsize=18, fontname="DejaVu Sans", splines=ortho, nodesep=0.45, ranksep=0.55];
+node [fontname="DejaVu Sans", fontsize=11, shape=box, style="rounded", penwidth=1.2, margin="0.10,0.07"];
+edge [fontname="DejaVu Sans", fontsize=9, arrowsize=0.7, penwidth=1.1];
+S [label="Start", shape=oval, style=""];
+I [label="Init UART, senzor, LCD", shape=box, style="rounded"];
+A [label="MCU1: citește senzor lumină", shape=box, style="rounded"];
+C [label="conversie / condiționare valoare", shape=box, style="rounded"];
+P [label="formează pachet
+STX, CMD, DATA, CRC, ETX", shape=box, style="rounded"];
+T [label="trimite pe UART", shape=box, style="rounded"];
+R [label="MCU2: așteaptă STX și citește cadru", shape=box, style="rounded"];
+V [label="ETX și CRC valide?", shape=diamond, style=""];
+E [label="afișează ERR / timeout pe LCD", shape=box, style="rounded"];
+L [label="afișează valoarea pe LCD prin STDIO", shape=box, style="rounded"];
+D [label="delay / următorul eșantion", shape=box, style="rounded"];
+S -> I [label=""];
+I -> A [label=""];
+A -> C [label=""];
+C -> P [label=""];
+P -> T [label=""];
+T -> R [label=""];
+R -> V [label=""];
+V -> E [label="NU"];
+E -> R [label=""];
+V -> L [label="DA"];
+L -> D [label=""];
+D -> A [label=""];
+}

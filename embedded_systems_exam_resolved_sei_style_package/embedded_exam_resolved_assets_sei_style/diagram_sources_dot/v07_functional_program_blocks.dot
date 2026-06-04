@@ -1,0 +1,18 @@
+digraph v07_functional_program_blocks {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 7 - schemă bloc funcțională program"
+	node [fontsize=10 shape=box]
+	A [label=Standby]
+	B [label="Ușă închisă"]
+	C [label="Ușă deschisă"]
+	D [label="Citește buton/contact"]
+	E [label="Tranziție FSM"]
+	F [label="printf stare curentă"]
+	D -> E [label="" fontsize=9]
+	E -> A [label="reset/idle" fontsize=9]
+	E -> B [label="contact=0" fontsize=9]
+	E -> C [label="contact=1" fontsize=9]
+	A -> F [label="" fontsize=9]
+	B -> F [label="" fontsize=9]
+	C -> F [label="" fontsize=9]
+}

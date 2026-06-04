@@ -1,0 +1,24 @@
+digraph G {
+graph [rankdir=TB, bgcolor="white", labelloc="t", label="Varianta 8 - schemă bloc funcțională / flux program", fontsize=18, fontname="DejaVu Sans", splines=ortho, nodesep=0.45, ranksep=0.55];
+node [fontname="DejaVu Sans", fontsize=11, shape=box, style="rounded", penwidth=1.2, margin="0.10,0.07"];
+edge [fontname="DejaVu Sans", fontsize=9, arrowsize=0.7, penwidth=1.1];
+S [label="Start", shape=oval, style=""];
+I [label="Init senzor temp, potențiometru, motor, serial", shape=box, style="rounded"];
+R [label="citește temperatura motorului", shape=box, style="rounded"];
+P [label="citește prag critic din potențiometru", shape=box, style="rounded"];
+D [label="T_motor > T_critică?", shape=diamond, style=""];
+STOP [label="oprește motorul / stare sigură", shape=box, style="rounded"];
+RUN [label="motor permis", shape=box, style="rounded"];
+SER [label="raportează stare pe serial", shape=parallelogram, style=""];
+T [label="delay dT", shape=box, style="rounded"];
+S -> I [label=""];
+I -> R [label=""];
+R -> P [label=""];
+P -> D [label=""];
+D -> STOP [label="DA"];
+D -> RUN [label="NU"];
+STOP -> SER [label=""];
+RUN -> SER [label=""];
+SER -> T [label=""];
+T -> R [label=""];
+}

@@ -11,6 +11,20 @@ function cleanPromptPrefix(text) {
     .trim();
 }
 
+function normalizeAssetPath(path) {
+  if (!path) return "";
+
+  return path
+    .replace(
+      /^embedded_exam_resolved_assets_sei_style\//,
+      "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/",
+    )
+    .replace(
+      /^embedded_exam_resolved_assets\//,
+      "embedded_systems_exam_resolved_package_latex/assets/",
+    );
+}
+
 function conciseTitle(text) {
   const cleaned = cleanPromptPrefix(text).replace(/\s+/g, " ").trim();
   const sentence = cleaned.match(/^(.+?[.!?])(\s|$)/)?.[1] || cleaned;
@@ -26,6 +40,29 @@ function stringifyValue(value) {
     .map(([key, nested]) => `${titleFromKey(key)}: ${stringifyValue(nested)}`)
     .filter(Boolean)
     .join("; ");
+}
+
+function firstMeaningfulLine(text) {
+  return text
+    .split("\n")
+    .map((line) => line.trim())
+    .find(Boolean) || "";
+}
+
+function bodyWithoutFirstLine(text) {
+  const lines = text.split("\n");
+  const firstIndex = lines.findIndex((line) => line.trim());
+  if (firstIndex === -1) return text;
+  return lines.slice(firstIndex + 1).join("\n").trim();
+}
+
+function extractPseudoTitle(text) {
+  const match = text.match(/PSEUDOCOD\s*-\s*([^\n]+)/i);
+  return match?.[1]?.trim() || "";
+}
+
+function stripLeadingLabel(text, label) {
+  return text.replace(new RegExp(`^${label}\\s*:\\s*\\n?`, "i"), "").trim();
 }
 
 function isMathOnlyText(value) {
@@ -72,13 +109,60 @@ function formatSection(label, value) {
 function toImage(relativePath, caption, extra = {}) {
   if (!relativePath) return null;
 
-  const path = relativePath.replace(/^embedded_exam_resolved_assets\//, "embedded_systems_exam_resolved_package_latex/assets/");
-
   return {
-    path,
+    path: normalizeAssetPath(relativePath),
     caption,
     source_pdf: extra.source_pdf,
     page: extra.page,
+  };
+}
+
+function seiImage(path, caption) {
+  if (!path) return null;
+  return { path: normalizeAssetPath(path), caption };
+}
+
+function normalizeSeiAnswerBody(taskKey, answer) {
+  if (!answer) return "";
+
+  if (taskKey !== "task_3") {
+    return bodyWithoutFirstLine(answer);
+  }
+
+  return stripLeadingLabel(answer, "Abordare scurtă");
+}
+
+function normalizeSeiTask(taskKey, task) {
+  const rawAnswer = task.answer || "";
+  const title = taskKey === "task_3"
+    ? extractPseudoTitle(rawAnswer) || firstMeaningfulLine(rawAnswer)
+    : firstMeaningfulLine(rawAnswer);
+
+  const images = [];
+
+  if (task.diagram_path) {
+    images.push(seiImage(task.diagram_path, "Diagramă pentru task 1"));
+  }
+
+  if (Array.isArray(task.diagram_paths)) {
+    task.diagram_paths.forEach((path, index) => {
+      images.push(seiImage(path, `Diagramă suport ${index + 1}`));
+    });
+  }
+
+  if (task.electrical_diagram_path) {
+    images.push(seiImage(task.electrical_diagram_path, "Diagramă interconectare electrică"));
+  }
+
+  if (task.program_block_diagram_path) {
+    images.push(seiImage(task.program_block_diagram_path, "Diagramă bloc program"));
+  }
+
+  return {
+    title,
+    condition: "",
+    exam_text: normalizeSeiAnswerBody(taskKey, rawAnswer),
+    images: images.filter(Boolean),
   };
 }
 
@@ -180,7 +264,19 @@ function normalizeLatexData(raw) {
   }));
 }
 
+function normalizeSeiData(raw) {
+  return raw.map((variant) => ({
+    variant: variant.variant,
+    answer: {
+      task_1: normalizeSeiTask("task_1", variant.task_1),
+      task_2: normalizeSeiTask("task_2", variant.task_2),
+      task_3: normalizeSeiTask("task_3", variant.task_3),
+    },
+  }));
+}
+
 export function normalizeExamData(raw) {
+  if (Array.isArray(raw) && raw[0]?.task_1?.answer) return normalizeSeiData(raw);
   if (Array.isArray(raw)) return raw;
   if (raw?.variants && raw?.common_task_1_solution) return normalizeLatexData(raw);
   return [];

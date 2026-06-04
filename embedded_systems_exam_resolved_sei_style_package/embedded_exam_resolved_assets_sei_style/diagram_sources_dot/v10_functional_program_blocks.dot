@@ -1,0 +1,18 @@
+digraph v10_functional_program_blocks {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 10 - schemă bloc funcțională program"
+	node [fontsize=10 shape=box]
+	A [label="Citește vibrație ADC"]
+	B [label="saturare min/max"]
+	C [label="filtru mediere ponderată"]
+	D [label="trimite protocol UART"]
+	E [label="MCU2 verifică CRC"]
+	F [label="LCD valoare filtrată"]
+	G [label=ERR]
+	A -> B [label="" fontsize=9]
+	B -> C [label="" fontsize=9]
+	C -> D [label="" fontsize=9]
+	D -> E [label="" fontsize=9]
+	E -> F [label=valid fontsize=9]
+	E -> G [label=invalid fontsize=9]
+}

@@ -33,7 +33,7 @@ export function getSearchResults(variants, query) {
   return variants.flatMap((variant) =>
     taskEntries(variant)
       .filter(({ task, title, label }) => {
-        const searchable = `${variant.variant} ${label} ${title}`;
+        const searchable = `${variant.variant} ${label} ${title} ${conditionText(task.condition)} ${task.exam_text || ""}`;
         return matchesSearch(searchable, query);
       })
       .map(({ key, task, label, title }) => ({
@@ -41,7 +41,7 @@ export function getSearchResults(variants, query) {
         label,
         title,
         variant: variant.variant,
-        snippet: makeSnippet(conditionText(task.condition), query),
+        snippet: makeSnippet(`${conditionText(task.condition)}\n${task.exam_text || ""}`, query),
       }))
   );
 }

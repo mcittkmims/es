@@ -164,6 +164,14 @@ export function renderVariant(els, variant, highlightTaskKey = null) {
       const conditionId = `${key}_condition`;
       const answerId = `${key}_answer`;
       const imagesId = `${key}_images`;
+      const conditionMarkup = condition
+        ? renderSection({
+            content: `<div class="condition">${escapeHtml(condition)}</div>`,
+            hidden: coverScreenMode,
+            id: conditionId,
+            label: "Condition",
+          })
+        : "";
       const imageMarkup = images.length
         ? renderSection({
             content: `<div class="images">${images.map(renderImage).join("")}</div>`,
@@ -180,12 +188,7 @@ export function renderVariant(els, variant, highlightTaskKey = null) {
             <h3>${escapeHtml(label)}</h3>
             <p>${escapeHtml(title)}</p>
           </div>
-          ${renderSection({
-            content: `<div class="condition">${escapeHtml(condition)}</div>`,
-            hidden: coverScreenMode,
-            id: conditionId,
-            label: "Condition",
-          })}
+          ${conditionMarkup}
           ${renderSection({
             content: `<div class="answer">${renderAnswerText(task.exam_text)}</div>`,
             id: answerId,

@@ -1,0 +1,32 @@
+digraph G {
+graph [rankdir=TB, bgcolor="white", labelloc="t", label="Varianta 15 - schemă bloc funcțională / flux program", fontsize=18, fontname="DejaVu Sans", splines=ortho, nodesep=0.45, ranksep=0.55];
+node [fontname="DejaVu Sans", fontsize=11, shape=box, style="rounded", penwidth=1.2, margin="0.10,0.07"];
+edge [fontname="DejaVu Sans", fontsize=9, arrowsize=0.7, penwidth=1.1];
+S [label="Start", shape=oval, style=""];
+I [label="Init UART, LCD, counter diagnoză", shape=box, style="rounded"];
+P [label="MCU1: formează mesaj + CRC", shape=box, style="rounded"];
+T [label="trimite serial", shape=box, style="rounded"];
+R [label="MCU2: primește cadru", shape=box, style="rounded"];
+D [label="CRC corect?", shape=diamond, style=""];
+OK [label="resetează counter eroare
+LCD: comunicație OK", shape=box, style="rounded"];
+INC [label="incrementare counter eroare", shape=box, style="rounded"];
+Q [label="counter >= limită?", shape=diamond, style=""];
+ERR [label="LCD: eroare comunicare calificată", shape=box, style="rounded"];
+W [label="LCD: avertizare / așteaptă cadru", shape=box, style="rounded"];
+DE [label="delay dT", shape=box, style="rounded"];
+S -> I [label=""];
+I -> P [label=""];
+P -> T [label=""];
+T -> R [label=""];
+R -> D [label=""];
+D -> OK [label="DA"];
+OK -> DE [label=""];
+D -> INC [label="NU"];
+INC -> Q [label=""];
+Q -> ERR [label="DA"];
+Q -> W [label="NU"];
+ERR -> DE [label=""];
+W -> DE [label=""];
+DE -> P [label=""];
+}

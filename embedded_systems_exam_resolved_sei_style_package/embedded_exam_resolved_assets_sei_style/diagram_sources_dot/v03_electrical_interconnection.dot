@@ -1,0 +1,22 @@
+digraph v03_electrical_interconnection {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 3 - diagramă conceptuală de interconectare electrică"
+	node [fontsize=10 shape=box]
+	POT [label="Potențiometru
+setare prag"]
+	MCU [label="MCU
+ADC + control"]
+	DRV [label="Tranzistor + diodă
+Driver releu"]
+	R [label=Releu]
+	LOAD [label="Sarcină AC/DC"]
+	LCD [label=LCD]
+	P [label="Alimentare
+GND comun"]
+	P -> MCU [label="" fontsize=9]
+	POT -> MCU [label=ADC fontsize=9]
+	MCU -> DRV [label=GPIO fontsize=9]
+	DRV -> R [label="bobină" fontsize=9]
+	R -> LOAD [label="contact NO/NC" fontsize=9]
+	MCU -> LCD [label="I2C/GPIO" fontsize=9]
+}

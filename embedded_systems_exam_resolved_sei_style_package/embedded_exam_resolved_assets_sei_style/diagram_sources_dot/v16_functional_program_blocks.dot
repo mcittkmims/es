@@ -1,0 +1,19 @@
+digraph v16_functional_program_blocks {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 16 - schemă bloc funcțională program"
+	node [fontsize=10 shape=box]
+	A [label="Primește Kp Ki Kd setpoint"]
+	B [label="Măsoară viteză encoder"]
+	C [label="e=setpoint-speed"]
+	D [label="PID discret + anti-windup"]
+	E [label="saturare duty 0..255"]
+	F [label="PWM către driver"]
+	G [label="LCD speed/duty"]
+	A -> B [label="" fontsize=9]
+	B -> C [label="" fontsize=9]
+	C -> D [label="" fontsize=9]
+	D -> E [label="" fontsize=9]
+	E -> F [label="" fontsize=9]
+	F -> G [label="" fontsize=9]
+	F -> B [label=feedback fontsize=9]
+}
