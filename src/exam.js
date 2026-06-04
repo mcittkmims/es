@@ -1,10 +1,17 @@
+function localized(value, language) {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  return value[language] || value.ro || value.en || "";
+}
+
 export function taskLabel(taskKey) {
   return taskKey.replace("task_", "Task ");
 }
 
-export function conditionText(condition) {
+export function conditionText(condition, language = "ro") {
   if (!condition) return "";
   if (typeof condition === "string") return condition;
+  if (condition.ro || condition.en) return localized(condition, language);
 
   const details = Array.isArray(condition.implementation_details)
     ? condition.implementation_details.map((item) => `- ${item}`).join("\n")
@@ -13,10 +20,10 @@ export function conditionText(condition) {
   return [condition.text, details].filter(Boolean).join("\n\nImplementation details:\n");
 }
 
-export function taskTitle(task) {
-  if (task.title) return task.title;
+export function taskTitle(task, language = "ro") {
+  if (task.title) return localized(task.title, language);
 
-  const firstLine = task.exam_text
+  const firstLine = localized(task.exam_text, language)
     .split("\n")
     .map((line) => line.trim())
     .find(Boolean);
@@ -24,12 +31,12 @@ export function taskTitle(task) {
   return firstLine || "Untitled question";
 }
 
-export function taskEntries(variant) {
+export function taskEntries(variant, language = "ro") {
   return Object.entries(variant.answer).map(([key, task]) => ({
     key,
     task,
     label: taskLabel(key),
-    title: taskTitle(task),
+    title: taskTitle(task, language),
   }));
 }
 

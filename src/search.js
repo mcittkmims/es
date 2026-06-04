@@ -29,11 +29,17 @@ export function makeSnippet(text, query) {
   return `${prefix}${text.slice(start, end).replace(/\s+/g, " ").trim()}${suffix}`;
 }
 
-export function getSearchResults(variants, query) {
+function localized(value, language) {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  return value[language] || value.ro || value.en || "";
+}
+
+export function getSearchResults(variants, query, language = "ro") {
   return variants.flatMap((variant) =>
-    taskEntries(variant)
+    taskEntries(variant, language)
       .filter(({ task, title, label }) => {
-        const searchable = `${variant.variant} ${label} ${title} ${conditionText(task.condition)} ${task.exam_text || ""}`;
+        const searchable = `${variant.variant} ${label} ${title} ${conditionText(task.condition, language)} ${localized(task.exam_text, language)}`;
         return matchesSearch(searchable, query);
       })
       .map(({ key, task, label, title }) => ({
@@ -41,15 +47,15 @@ export function getSearchResults(variants, query) {
         label,
         title,
         variant: variant.variant,
-        snippet: makeSnippet(`${conditionText(task.condition)}\n${task.exam_text || ""}`, query),
+        snippet: makeSnippet(`${conditionText(task.condition, language)}\n${localized(task.exam_text, language)}`, query),
       }))
   );
 }
 
-export function renderSearchResult(result) {
+export function renderSearchResult(result, variantWord = "Variant") {
   return `
     <button class="result-button" type="button" data-variant="${result.variant}" data-task="${result.key}">
-      <strong>Variant ${result.variant} · ${escapeHtml(result.label)}</strong>
+      <strong>${escapeHtml(variantWord)} ${result.variant} · ${escapeHtml(result.label)}</strong>
       <span>${escapeHtml(result.title)}</span>
       <span>${escapeHtml(result.snippet)}</span>
     </button>

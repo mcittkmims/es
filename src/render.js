@@ -2,6 +2,12 @@ import { highlightCode, isCodeLine } from "./code-highlight.js";
 import { conditionText, taskEntries } from "./exam.js";
 import { escapeAttribute, escapeHtml } from "./utils.js";
 
+function localized(value, language) {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  return value[language] || value.ro || value.en || "";
+}
+
 export function renderAnswerText(text) {
   const lines = text.split("\n");
   const blocks = [];
@@ -29,7 +35,11 @@ export function renderAnswerText(text) {
   }
 
   lines.forEach((line) => {
-    const startsCodeBlock = line.trim().toLowerCase().startsWith("cod critic comentat:");
+    const trimmed = line.trim().toLowerCase();
+    const startsCodeBlock = trimmed.startsWith("cod critic comentat:")
+      || trimmed.startsWith("commented critical code:")
+      || trimmed.startsWith("pseudocod logic comentat:")
+      || trimmed.startsWith("commented logic pseudocode:");
 
     if (startsCodeBlock) {
       flushList();
@@ -106,27 +116,29 @@ export function renderAnswerText(text) {
     .join("");
 }
 
-export function renderImage(image) {
+export function renderImage(image, language) {
   const captionParts = [
-    image.caption,
+    localized(image.caption, language),
     image.source_pdf && `Source: ${image.source_pdf}`,
     image.page && `page ${image.page}`,
   ].filter(Boolean);
+  const path = localized(image.path, language);
+  const alt = localized(image.caption, language) || "Exam diagram";
 
   return `
     <figure>
-      <img src="${escapeAttribute(image.path)}" alt="${escapeAttribute(image.caption || "Exam diagram")}">
+      <img src="${escapeAttribute(path)}" alt="${escapeAttribute(alt)}">
       <figcaption class="caption">${escapeHtml(captionParts.join(" · "))}</figcaption>
     </figure>
   `;
 }
 
-function renderSection({ content, hidden = false, id, label, modifier = "" }) {
-  const buttonText = hidden ? `Show ${label}` : `Hide ${label}`;
+function renderSection({ content, hidden = false, id, label, modifier = "", strings }) {
+  const buttonText = hidden ? `${strings.show} ${label}` : `${strings.hide} ${label}`;
 
   return `
     <section class="section-block ${modifier}">
-      <button class="section-toggle" type="button" aria-expanded="${hidden ? "false" : "true"}" aria-controls="${id}" data-label="${escapeAttribute(label)}">
+      <button class="section-toggle" type="button" aria-expanded="${hidden ? "false" : "true"}" aria-controls="${id}" data-label="${escapeAttribute(label)}" data-show="${escapeAttribute(strings.show)}" data-hide="${escapeAttribute(strings.hide)}">
         ${escapeHtml(buttonText)}
       </button>
       <div class="section-content" id="${id}" ${hidden ? "hidden" : ""}>
@@ -146,21 +158,22 @@ function renderTaskNav(entries) {
     .join("");
 }
 
-export function renderVariant(els, variant, highlightTaskKey = null) {
+export function renderVariant(els, variant, language, strings, highlightTaskKey = null) {
   if (!variant) return;
 
-  const entries = taskEntries(variant);
+  const entries = taskEntries(variant, language);
 
   els.variantSelect.value = String(variant.variant);
-  els.variantTitle.textContent = `Variant ${variant.variant}`;
-  els.variantSubtitle.textContent = `${entries.length} tasks with conditions, answers, and diagrams`;
+  els.variantTitle.textContent = `${strings.variantWord} ${variant.variant}`;
+  els.variantSubtitle.textContent = strings.variantSubtitle(entries.length);
   els.taskNav.innerHTML = renderTaskNav(entries);
 
   els.tasks.innerHTML = entries
     .map(({ key, task, label, title }) => {
       const coverScreenMode = window.matchMedia("(max-width: 390px) and (max-height: 450px)").matches;
       const images = Array.isArray(task.images) ? task.images : [];
-      const condition = conditionText(task.condition);
+      const condition = conditionText(task.condition, language);
+      const answerText = localized(task.exam_text, language);
       const conditionId = `${key}_condition`;
       const answerId = `${key}_answer`;
       const imagesId = `${key}_images`;
@@ -169,16 +182,18 @@ export function renderVariant(els, variant, highlightTaskKey = null) {
             content: `<div class="condition">${escapeHtml(condition)}</div>`,
             hidden: coverScreenMode,
             id: conditionId,
-            label: "Condition",
+            label: strings.conditionLabel,
+            strings,
           })
         : "";
       const imageMarkup = images.length
         ? renderSection({
-            content: `<div class="images">${images.map(renderImage).join("")}</div>`,
+            content: `<div class="images">${images.map((image) => renderImage(image, language)).join("")}</div>`,
             hidden: true,
             id: imagesId,
-            label: `Images (${images.length})`,
+            label: `${strings.imagesLabel} (${images.length})`,
             modifier: "image-block",
+            strings,
           })
         : "";
 
@@ -190,10 +205,11 @@ export function renderVariant(els, variant, highlightTaskKey = null) {
           </div>
           ${conditionMarkup}
           ${renderSection({
-            content: `<div class="answer">${renderAnswerText(task.exam_text)}</div>`,
+            content: `<div class="answer">${renderAnswerText(answerText)}</div>`,
             id: answerId,
-            label: "Answer",
+            label: strings.answerLabel,
             modifier: "answer-block",
+            strings,
           })}
           ${imageMarkup}
         </article>

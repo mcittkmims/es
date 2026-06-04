@@ -1,6 +1,7 @@
 export const els = {
   clearSearch: document.querySelector("#clearSearch"),
   error: document.querySelector("#loadingError"),
+  languageSelect: document.querySelector("#languageSelect"),
   nextVariant: document.querySelector("#nextVariant"),
   prevVariant: document.querySelector("#prevVariant"),
   searchInput: document.querySelector("#searchInput"),
