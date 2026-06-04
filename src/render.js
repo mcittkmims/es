@@ -93,6 +93,10 @@ export function renderAnswerText(text) {
       }
 
       const trimmed = block.text.trim();
+      if (/^[^:\n]+:\s*$/.test(trimmed)) {
+        return `<h4 class="answer-subhead">${escapeHtml(trimmed.slice(0, -1))}</h4>`;
+      }
+
       if (/^\\\(.+\\\)$/.test(trimmed) || /^\\\[.+\\\]$/.test(trimmed)) {
         return `<div class="answer-formula">${escapeHtml(trimmed)}</div>`;
       }

@@ -333,6 +333,14 @@ button:disabled {
   white-space: pre-wrap;
 }
 
+.answer-subhead {
+  color: var(--primary);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  margin: 2px 0;
+  text-transform: uppercase;
+}
+
 .answer-list {
   display: grid;
   gap: 8px;

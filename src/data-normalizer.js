@@ -5,6 +5,18 @@ function titleFromKey(key) {
     .join(" ");
 }
 
+function cleanPromptPrefix(text) {
+  return text
+    .replace(/^(Problema|Задача)\s*:\s*/i, "")
+    .trim();
+}
+
+function conciseTitle(text) {
+  const cleaned = cleanPromptPrefix(text).replace(/\s+/g, " ").trim();
+  const sentence = cleaned.match(/^(.+?[.!?])(\s|$)/)?.[1] || cleaned;
+  return sentence.length > 120 ? `${sentence.slice(0, 117).trim()}...` : sentence;
+}
+
 function stringifyValue(value) {
   if (value == null) return "";
   if (typeof value === "string") return value;
@@ -72,8 +84,6 @@ function toImage(relativePath, caption, extra = {}) {
 
 function normalizeTask1(commonTask1, task1) {
   const examText = [
-    "Structura generică a unui dispozitiv IoT",
-    "",
     `Definiție: ${commonTask1.definition}`,
     "",
     "Componente și roluri:",
@@ -85,6 +95,7 @@ function normalizeTask1(commonTask1, task1) {
   ].filter(Boolean).join("\n");
 
   return {
+    title: "Structura generică a unui dispozitiv IoT",
     condition: task1.original_task,
     exam_text: examText,
     images: [
@@ -96,9 +107,7 @@ function normalizeTask1(commonTask1, task1) {
 function normalizeTask2(task2) {
   const solution = task2.solution || {};
   const sections = [
-    solution.title || "Task 2",
-    "",
-    formatSection("Răspuns", solution.succinct_answer),
+    formatList(solution.succinct_answer || []),
   ];
 
   Object.entries(solution).forEach(([key, value]) => {
@@ -107,6 +116,7 @@ function normalizeTask2(task2) {
   });
 
   return {
+    title: solution.title || "Task 2",
     condition: task2.original_task,
     exam_text: sections.filter(Boolean).join("\n"),
     images: (task2.matching_slide_diagrams || [])
@@ -124,12 +134,10 @@ function normalizeTableRows(rows) {
 
 function normalizeTask3(task3) {
   const examText = [
-    "Abordare",
-    "",
-    formatSection("Pași cheie", task3.short_approach),
+    formatList(task3.short_approach || []),
     "",
     task3.state_or_parameter_table?.length
-      ? `Tabel de stări / parametri:\n${normalizeTableRows(task3.state_or_parameter_table)}`
+      ? `Stări / parametri:\n${normalizeTableRows(task3.state_or_parameter_table)}`
       : "",
     "",
     "Interconectare electrică: vezi imaginile atașate.",
@@ -152,6 +160,7 @@ function normalizeTask3(task3) {
   ].filter(Boolean);
 
   return {
+    title: conciseTitle(typeof task3.original_task === "string" ? task3.original_task : task3.original_task?.text || "Task 3"),
     condition: task3.original_task,
     exam_text: examText,
     images,

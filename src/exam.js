@@ -14,6 +14,8 @@ export function conditionText(condition) {
 }
 
 export function taskTitle(task) {
+  if (task.title) return task.title;
+
   const firstLine = task.exam_text
     .split("\n")
     .map((line) => line.trim())
