@@ -1,0 +1,1800 @@
+{
+  "metadata": {
+    "title": "Rezolvări examen Sisteme Electronice Încorporate / Embedded Systems",
+    "input_variants_file": {
+      "relative_path": "si_variants_tasks_only(2).json",
+      "sandbox_path": "/mnt/data/si_variants_tasks_only(2).json"
+    },
+    "language": "Romanian, cu păstrarea terminologiei tehnice EN unde este uzuală",
+    "diagram_generation_tool_used_for_task_3": "Graphviz DOT",
+    "recommended_tools_for_future_manual_editing": [
+      "Graphviz DOT",
+      "Mermaid",
+      "PlantUML",
+      "diagrams.net/draw.io"
+    ],
+    "professor_requirements_applied": [
+      "descrieri succinte și definiții scurte",
+      "diagramă conceptuală de interconectare electrică pentru fiecare task 3",
+      "schemă bloc funcțională pentru program pentru fiecare task 3",
+      "cod sursă comentat pentru secțiunile critice, cu raport comentarii/cod apropiat de 1:1"
+    ],
+    "asset_base": {
+      "relative_path": "embedded_exam_resolved_assets",
+      "sandbox_path": "/mnt/data/embedded_exam_resolved_assets"
+    },
+    "formula_format": "Formulele din explicații sunt scrise în LaTeX, delimitate cu \\( ... \\). Codul sursă rămâne C/C++ valid."
+  },
+  "common_task_1_solution": {
+    "definition": "Un dispozitiv IoT este un sistem încorporat conectat la rețea, capabil să preia informații din mediul fizic, să execute acțiuni locale, să comunice cu alte dispozitive/cloud și să gestioneze energie, stocare și diagnostic.",
+    "diagram": {
+      "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+      "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+      "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+      "original_sandbox_path": "/mnt/data/image.png"
+    },
+    "component_roles": [
+      {
+        "component": "SNS / senzori",
+        "role": "Convertesc mărimi fizice (temperatură, lumină, umiditate, poziție) în semnale interne ale sistemului."
+      },
+      {
+        "component": "ACT / actuatoare",
+        "role": "Transformă comenzi interne în acțiuni fizice: mișcare, comutare releu, lumină, încălzire."
+      },
+      {
+        "component": "Application + Platform BSW + OS",
+        "role": "Execută logica aplicației, driverele, planificarea taskurilor, protocoalele și controlul."
+      },
+      {
+        "component": "COM",
+        "role": "Asigură schimbul de date cu alte dispozitive, gateway, internet sau cloud, prin UART/I2C/SPI/MQTT etc."
+      },
+      {
+        "component": "DB / stocare",
+        "role": "Reține configurații, loguri, calibrări, istoric de diagnoză sau date temporare."
+      },
+      {
+        "component": "UI",
+        "role": "Permite configurare și raportare locală prin butoane, LED, LCD, terminal serial, keypad/touch."
+      },
+      {
+        "component": "POW",
+        "role": "Asigură alimentarea, conversia tensiunilor, filtrarea, monitorizarea consumului și protecțiile electrice."
+      },
+      {
+        "component": "PHY",
+        "role": "Mediul fizic asupra căruia sistemul măsoară sau acționează."
+      }
+    ],
+    "short_architecture_flow": "PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; în paralel: UI pentru utilizator, DB pentru memorare, COM pentru IoT, POW pentru alimentare."
+  },
+  "variants": [
+    {
+      "variant": 1,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Interacțiunea cu utilizatorul: Clasificarea interfețelor utilizator – binare, tablouri uni/bi-dimensionale, STDIO. Se vor analiza modalitățile de interacțiune utilizator-dispozitiv, începând cu interfețele simple (buton, LED) și continuând cu cele mai complexe (tastaturi, ecrane tactile). Este important să se înțeleagă cum aceste componente facilitează utilizarea dispozitivelor IoT în funcție de cerințele sistemului.",
+        "solution": {
+          "title": "Interacțiunea cu utilizatorul: binar, matrici, STDIO",
+          "succinct_answer": [
+            "Interfața utilizator este ansamblul de componente prin care utilizatorul comandă și observă sistemul.",
+            "Interfață binară: 1 bit intrare/ieșire, exemplu buton/LED; simplă, robustă, folosită pentru start/stop, alarmă, stare.",
+            "Tablou unidimensional/bidimensional: mai multe elemente binare organizate ca vector sau matrice; exemple: bargraph LED, keypad 4x4, matrice LED/LCD.",
+            "STDIO abstractizează perifericul de intrare/ieșire: printf/scanf pot lucra cu UART, LCD/keypad sau buton/LED prin funcții putchar/getchar adaptate.",
+            "Alegerea interfeței depinde de cantitatea de informație: LED pentru stare, keypad pentru comenzi discrete, LCD/terminal pentru text și valori."
+          ],
+          "classification": [
+            {
+              "type": "Binară",
+              "input": "buton/contact",
+              "output": "LED/releu",
+              "use": "comandă și stare simplă"
+            },
+            {
+              "type": "Tablou 1D",
+              "input": "șir de butoane",
+              "output": "bargraph LED",
+              "use": "nivel, meniu scurt"
+            },
+            {
+              "type": "Tablou 2D",
+              "input": "keypad matrice",
+              "output": "LCD/matrice LED",
+              "use": "meniu, valori numerice"
+            },
+            {
+              "type": "STDIO",
+              "input": "scanf/getchar",
+              "output": "printf/putchar",
+              "use": "interfață portabilă peste UART/LCD/keypad"
+            }
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v01_interaction_classes_p3.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v01_interaction_classes_p3.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 3,
+            "reason_strict_match": "Clasificarea HMI: binar, matrici, interfețe digitale, STDIO, analogice, complexe"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v01_binary_button_led_p6.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v01_binary_button_led_p6.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 6,
+            "reason_strict_match": "Exemplu strict pentru interfață binară: buton/LED"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v01_keypad_binary_array_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v01_keypad_binary_array_p7.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Exemplu strict pentru tablou bidimensional de taste"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v01_stdio_interface_p20.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v01_stdio_interface_p20.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 20,
+            "reason_strict_match": "Principiul STDIO pentru interfața utilizator"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v01_stdio_keypad_lcd_p27.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v01_stdio_keypad_lcd_p27.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 27,
+            "reason_strict_match": "Legarea STDIO la keypad + LCD"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație bazată pe un protocol software simplu de comunicare prin serial între două MCU-uri. Pe primul MCU se implementează achiziția datelor de la un senzor de temperatură și transmiterea acestora folosind un protocol definit (STX, ETX, CMD, DATA, CRC). Pe al doilea MCU, se implementează recepția datelor, verificarea CRC și afișarea valorilor pe LCD.",
+          "implementation_details": [
+            "Intrare: Protocol software pe interfața serială (STX, ETX, CMD, DATA, CRC).",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Protocolul folosește delimitatori STX/ETX pentru sincronizare și CRC pentru integritate.",
+          "LCD-ul este legat la stdout prin funcție putchar."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v01_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v01_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v01_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v01_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v01_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v01_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v01_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v01_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// MCU1: achiziție temperatură și transmitere UART cu protocol STX/ETX/CMD/DATA/CRC\n#define STX 0x02\n#define ETX 0x03\n#define CMD_TEMP 0x10\nuint8_t crc8(uint8_t *b, uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; } // checksum simplu\nvoid sendTemp(int16_t temp10){\n  uint8_t p[4] = {CMD_TEMP, 2, highByte(temp10), lowByte(temp10)}; // CMD, LEN, DATA_H, DATA_L\n  Serial.write(STX);                                           // start cadru\n  Serial.write(p,4);                                           // conținut pachet\n  Serial.write(crc8(p,4));                                     // CRC peste CMD+LEN+DATA\n  Serial.write(ETX);                                           // final cadru\n}\nvoid loop(){\n  int adc = analogRead(A0);                                    // citire senzor temperatură\n  int16_t temp10 = map(adc,0,1023,0,500);                       // conversie: 0..50.0 °C\n  sendTemp(temp10);                                            // transmitere spre MCU2\n  delay(100);                                                  // recurență simplă 100 ms\n}\n\n// MCU2: recepție, verificare CRC și afișare pe LCD prin STDIO\nint lcd_putchar(char ch, FILE *f){ lcd.write(ch); return 0; }  // printf -> LCD\nvoid setup(){ lcd.begin(16,2); fdev_setup_stream(&lcdout,lcd_putchar,NULL,_FDEV_SETUP_WRITE); stdout=&lcdout; }\nbool receiveTemp(int16_t *temp10){\n  static uint8_t buf[5], idx=0, active=0;                       // buffer: CMD LEN DATA_H DATA_L CRC\n  while(Serial.available()){\n    uint8_t b=Serial.read();\n    if(b==STX){ idx=0; active=1; continue; }                    // sincronizare cadru\n    if(!active) continue;                                      // ignoră zgomot înainte de STX\n    if(b==ETX && idx==5){                                      // pachet complet\n      active=0;\n      if(crc8(buf,4)!=buf[4] || buf[0]!=CMD_TEMP) return false; // validare comandă și CRC\n      *temp10 = ((int16_t)buf[2]<<8) | buf[3];                  // reconstrucție valoare\n      return true;\n    }\n    if(idx<5) buf[idx++]=b; else active=0;                      // protecție overflow\n  }\n  return false;\n}\nvoid loop(){ int16_t t; if(receiveTemp(&t)) printf(\"T=%d.%dC\",t/10,t%10); else printf(\"ERR\"); }",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 2,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Senzori: Clasificarea senzorilor, metode de achiziție și condiționare semnal. Se va detalia rolul senzorilor în sistemele IoT, pornind de la senzorii analogici până la cei digitali. Se vor prezenta metodele de achiziție (e.g., conversie analog-digitală), condiționare (filtrare semnal) și prelucrare, punând accent pe interpretarea și utilizarea datelor colectate în aplicații practice.",
+        "solution": {
+          "title": "Senzori: clasificare, achiziție, condiționare",
+          "succinct_answer": [
+            "Senzorul transformă o mărime fizică în informație internă utilizabilă de MCU; transductorul produce semnalul electric măsurabil.",
+            "Clasificare după interfață: binară (0/1), analogică (tensiune/curent proporțional), digitală (I2C/SPI/1-Wire/UART), temporală (durată/frecvență).",
+            "Achiziția analogică cere condiționare electrică, eșantionare și conversie ADC; achiziția digitală cere protocol și validarea mesajelor.",
+            "Condiționarea hardware: divizare, amplificare, saturare, filtrare; condiționarea software: limitare, mediană, mediere ponderată, conversie în unități fizice.",
+            "Datele se folosesc în control, diagnoză, logare sau transmitere IoT numai după verificare și filtrare."
+          ],
+          "classification": [
+            {
+              "criterion": "Interfață",
+              "classes": "binar, analogic, digital, temporal"
+            },
+            {
+              "criterion": "Sursă",
+              "classes": "intern/enteroceptiv, extern/exteroceptiv"
+            },
+            {
+              "criterion": "Localizare",
+              "classes": "local, global"
+            },
+            {
+              "criterion": "Activitate",
+              "classes": "activ, pasiv"
+            }
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v02_sensor_definition_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v02_sensor_definition_p7.png",
+            "source_pdf": "SI-21-C5 Sensor - Signal Acquisition(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Definiția senzorului și transformarea mărimii fizice în semnal intern"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v02_sensor_binary_interface_p9.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v02_sensor_binary_interface_p9.png",
+            "source_pdf": "SI-21-C5 Sensor - Signal Acquisition(2).pdf",
+            "page": 9,
+            "reason_strict_match": "Clasificare senzor cu interfață binară"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v02_sensor_analog_interface_p10.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v02_sensor_analog_interface_p10.png",
+            "source_pdf": "SI-21-C5 Sensor - Signal Acquisition(2).pdf",
+            "page": 10,
+            "reason_strict_match": "Clasificare senzor cu interfață analogică"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v02_sensor_digital_interface_p11.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v02_sensor_digital_interface_p11.png",
+            "source_pdf": "SI-21-C5 Sensor - Signal Acquisition(2).pdf",
+            "page": 11,
+            "reason_strict_match": "Clasificare senzor cu interfață digitală"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v02_hw_conditioning_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v02_hw_conditioning_p8.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Condiționare hardware: amplificare, atenuare, saturare"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v02_weighted_average_p14.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v02_weighted_average_p14.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 14,
+            "reason_strict_match": "Condiționare software: filtru de mediere ponderată"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație bazată pe un protocol software simplu de comunicare între două MCU-uri folosind I2C. Pe primul MCU se implementează achiziția și transmiterea valorilor de la un senzor de umiditate. Pe al doilea MCU se implementează recepția datelor și afișarea valorilor primite pe LCD.",
+          "implementation_details": [
+            "Intrare: Protocol software pe I2C.",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Pe I2C se recomandă GND comun și rezistențe pull-up pe SDA/SCL.",
+          "MCU2 validează CRC înainte de afișare."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v02_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v02_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v02_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v02_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v02_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v02_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v02_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v02_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// MCU1: achiziție umiditate și trimitere prin I2C către MCU2\n#define SLAVE_ADDR 0x12\n#define CMD_HUM 0x21\nuint8_t crc8(uint8_t *b,uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; }\nvoid sendHumidity(uint16_t hum10){\n  uint8_t p[4] = {CMD_HUM, 2, highByte(hum10), lowByte(hum10)}; // umiditate în zecimi de procent\n  Wire.beginTransmission(SLAVE_ADDR);                          // MCU2 este slave I2C\n  Wire.write(p,4);                                             // CMD+LEN+DATA\n  Wire.write(crc8(p,4));                                       // verificare integritate\n  Wire.endTransmission();                                      // final tranzacție\n}\nvoid loop(){\n  uint16_t hum10 = readHumidity10();                           // funcție driver senzor umiditate\n  sendHumidity(hum10);                                         // transmitere periodică\n  delay(200);                                                  // recurență 200 ms\n}\n\n// MCU2: callback I2C, CRC și LCD prin STDIO\nvolatile bool newData=false; volatile uint16_t humidity10=0; volatile bool rxOk=false;\nvoid onRx(int n){\n  uint8_t b[5]; for(uint8_t i=0;i<5 && Wire.available();i++) b[i]=Wire.read(); // citire frame fix\n  rxOk = (n==5 && b[0]==CMD_HUM && b[1]==2 && crc8(b,4)==b[4]); // validare lungime/comandă/CRC\n  if(rxOk) humidity10 = ((uint16_t)b[2]<<8) | b[3];             // extragere DATA\n  newData=true;                                                // semnalizare spre loop\n}\nint lcd_putchar(char ch, FILE *f){ lcd.write(ch); return 0; }  // printf pe LCD\nvoid setup(){ Wire.begin(SLAVE_ADDR); Wire.onReceive(onRx); lcd.begin(16,2); stdout=&lcdout; }\nvoid loop(){ if(newData){ newData=false; if(rxOk) printf(\"H=%u.%u%%\",humidity10/10,humidity10%10); else printf(\"I2C CRC ERR\"); } }",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 3,
+      "task_1": {
+        "original_task": "Общая структура устройства IoT. Ожидается объяснение общей архитектуры устройства IoT, включая основные компоненты: сенсоры, приводы, модули связи, управление энергией и хранение данных. Представьте диаграмму и краткое определение компонентов, включая их роль в функционировании системы.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Приводы: Классификация и методы планирования выполнения задач. Рассматривается, как приводы преобразуют управляющие сигналы системы в действия, направленные на внешнюю среду. Представлены бинарные приводы (например, реле), аналоговые (например, двигатели постоянного тока) и модуляция управляющих сигналов для выполнения сложных задач.",
+        "solution": {
+          "title": "Actuatori: clasificare și planificarea acțiunilor",
+          "succinct_answer": [
+            "Actuatorul transformă semnalul intern de comandă în acțiune fizică asupra sistemului sau mediului.",
+            "Convertorul de putere adaptează semnalul MCU la energia necesară actuatorului: tranzistor, releu, punte H, driver MOSFET.",
+            "Actuator binar: ON/OFF, exemplu releu, LED, electrovalvă; comandă simplă prin GPIO.",
+            "Actuator analogic/timp: comandă proporțională sau PWM pentru motor, LED RGB, încălzire; necesită temporizare și limitări.",
+            "Planificarea execuției se face prin task periodic, FSM sau control cu feedback; se evită blocarea prin delay lung în bucla principală."
+          ],
+          "classification": [
+            {
+              "criterion": "Interfață",
+              "classes": "binară, analogică, digitală, bazată pe timp/PWM"
+            },
+            {
+              "criterion": "Ținta acțiunii",
+              "classes": "internă asupra sistemului, externă asupra mediului"
+            },
+            {
+              "criterion": "Localizare",
+              "classes": "local, global"
+            },
+            {
+              "criterion": "Feedback",
+              "classes": "open-loop, closed-loop"
+            }
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v03_actuator_definition_p4.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v03_actuator_definition_p4.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 4,
+            "reason_strict_match": "Definiția actuatorului: semnal intern -> acțiune fizică"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v03_actuator_binary_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v03_actuator_binary_p7.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Interfață actuator binară"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v03_actuator_analog_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v03_actuator_analog_p8.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Interfață actuator analogică"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v03_actuator_time_based_p10.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v03_actuator_time_based_p10.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 10,
+            "reason_strict_match": "Interfață bazată pe timp / PWM"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v03_actuator_feedback_p13.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v03_actuator_feedback_p13.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 13,
+            "reason_strict_match": "Clasificare după feedback: open-loop / closed-loop"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Задача: Реализовать приложение, которое управляет реле на основе системы On/Off. Включение или выключение реле основано на пороговых значениях, установленных с помощью потенциометра, а текущее состояние системы отображается на LCD.",
+          "implementation_details": [
+            "Ввод: Потенциометр для установки порогов.",
+            "Вывод: LCD.",
+            "Замечания: Настройка STDIO для отображения на LCD.",
+            "Приложение должно работать в последовательных задачах или FreeRTOS на выбор."
+          ]
+        },
+        "short_approach": [
+          "Releul nu se conectează direct la pinul MCU; se folosește tranzistor și diodă flyback.",
+          "Potentiometrul oferă pragul, iar LCD raportează pragul și starea."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v03_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v03_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v03_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v03_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v03_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v03_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v03_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v03_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// Control releu On/Off pe baza pragului setat cu potențiometru\n#define RELAY_PIN 8\n#define POT_PIN A0\n#define PROC_PIN A1\nvoid setup(){ pinMode(RELAY_PIN,OUTPUT); lcd.begin(16,2); }\nvoid loop(){\n  int pot = analogRead(POT_PIN);                               // utilizatorul stabilește pragul\n  int threshold = map(pot,0,1023,0,100);                        // prag în procente/unități aplicație\n  int raw = analogRead(PROC_PIN);                               // mărimea controlată/simulată\n  int value = map(raw,0,1023,0,100);                             // conversie în aceeași scară\n  bool relayOn = (value < threshold);                            // lege On/Off simplă\n  digitalWrite(RELAY_PIN, relayOn ? HIGH : LOW);                 // comandă driver tranzistor + releu\n  lcd.setCursor(0,0); lcd.print(\"P=\"); lcd.print(threshold);    // raportare prag\n  lcd.setCursor(0,1); lcd.print(relayOn ? \"RELAY ON \" : \"RELAY OFF\"); // stare sistem\n  delay(100);                                                    // task periodic secvențial\n}",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 4,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Sisteme secvențiale: Principiile de proiectare și execuție. Se vor detalia conceptele de secvențialitate în sistemele IoT, descriind modul în care sarcinile sunt organizate și rulate în secvență. Se va discuta despre stabilirea recurenței și offsetului pentru sarcini simple și integrarea lor în aplicații care evită blocarea procesorului.",
+        "solution": {
+          "title": "Sisteme secvențiale: proiectare și execuție",
+          "succinct_answer": [
+            "Un sistem secvențial execută taskuri în aceeași buclă principală, într-o ordine stabilită, fără întrerupere preemptivă între taskuri.",
+            "Fiecare task are recurență (perioadă) și offset; exemplu: achiziție la 10 ms, control la 20 ms, raportare la 100 ms.",
+            "Se evită delay() blocant; se folosește millis()/timer flag pentru a porni taskul doar când i-a venit timpul.",
+            "Ordinea tipică: citire intrări -> filtrare/diagnoză -> control/FSM -> acționare -> raportare.",
+            "Avantaj: simplitate și predictibilitate; limitare: un task lung întârzie toate celelalte taskuri."
+          ],
+          "task_table": [
+            {
+              "task": "Achiziție",
+              "recurrence": "10 ms",
+              "offset": "0 ms"
+            },
+            {
+              "task": "Control",
+              "recurrence": "20 ms",
+              "offset": "5 ms"
+            },
+            {
+              "task": "Raportare",
+              "recurrence": "100 ms",
+              "offset": "10 ms"
+            }
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v04_multitasking_problem_p4.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v04_multitasking_problem_p4.png",
+            "source_pdf": "SI-21-C03 Operating Systems - Sequential(2).pdf",
+            "page": 4,
+            "reason_strict_match": "Coexistența funcționalităților: UI, senzor, actuator, control, comunicare"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v04_event_interrupt_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v04_event_interrupt_p7.png",
+            "source_pdf": "SI-21-C03 Operating Systems - Sequential(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Execuție secvențială declanșată de evenimente și întreruperi"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v04_timer_isr_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v04_timer_isr_p8.png",
+            "source_pdf": "SI-21-C03 Operating Systems - Sequential(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Sistem secvențial bazat pe temporizator"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v04_task_recurrence_order_p9.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v04_task_recurrence_order_p9.png",
+            "source_pdf": "SI-21-C03 Operating Systems - Sequential(2).pdf",
+            "page": 9,
+            "reason_strict_match": "Recurență și offset pentru taskuri"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v04_task_distribution_p11.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v04_task_distribution_p11.png",
+            "source_pdf": "SI-21-C03 Operating Systems - Sequential(2).pdf",
+            "page": 11,
+            "reason_strict_match": "Distribuția taskurilor secvențiale"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație pentru controlul unui semafor utilizând un automat finit. Stările (verde, galben, roșu) vor fi gestionate secvențial pe baza unui temporizator. Sistemul va permite comutarea între modurile automat și manual utilizând un buton.",
+          "implementation_details": [
+            "Intrare: Buton pentru schimbarea modurilor.",
+            "Raportare: LED-uri pentru fiecare stare.",
+            "Observații: Configurarea STDIO pentru raportarea stării curente pe interfața serială.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "FSM Moore: LED-urile depind de starea curentă.",
+          "Modul automat folosește timer; modul manual folosește buton."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v04_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v04_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v04_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v04_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v04_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v04_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v04_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v04_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// Semafor cu automat finit Moore și mod automat/manual\nenum State {GREEN, YELLOW, RED};\nState st = GREEN; bool manualMode=false; unsigned long tState=0;\nconst uint16_t delayMs[3] = {5000, 1000, 5000};                 // durate stări\nvoid setLights(State s){                                       // ieșiri dependente numai de stare\n  digitalWrite(LED_G, s==GREEN); digitalWrite(LED_Y, s==YELLOW); digitalWrite(LED_R, s==RED);\n}\nState nextAuto(State s){ return s==GREEN ? YELLOW : (s==YELLOW ? RED : GREEN); } // tranziții ciclice\nvoid setup(){ pinMode(BTN,INPUT_PULLUP); Serial.begin(9600); }\nvoid loop(){\n  static bool oldBtn=1; bool btn=digitalRead(BTN);              // citire buton mod/tranziție\n  if(oldBtn==1 && btn==0) manualMode = !manualMode;             // front descendent: schimbă modul\n  oldBtn=btn;\n  unsigned long now=millis();\n  setLights(st);                                                // acțiune Moore\n  if(!manualMode && now-tState>=delayMs[st]){ st=nextAuto(st); tState=now; } // mod automat cu timer\n  if(manualMode && oldBtn==0){ st=nextAuto(st); tState=now; }   // mod manual: un pas la buton\n  Serial.print(manualMode?\"MAN \":\"AUTO \"); Serial.println(st); // raportare STDIO/serial\n}",
+        "state_or_parameter_table": [
+          {
+            "state": "GREEN",
+            "output": "LED verde ON",
+            "next_auto": "YELLOW după 5 s"
+          },
+          {
+            "state": "YELLOW",
+            "output": "LED galben ON",
+            "next_auto": "RED după 1 s"
+          },
+          {
+            "state": "RED",
+            "output": "LED roșu ON",
+            "next_auto": "GREEN după 5 s"
+          }
+        ],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 5,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Comunicare: Protocoale fizice și logice de comunicare. Se va analiza rolul comunicării în sistemele IoT, descriind tipurile de protocoale utilizate pentru schimbul de date între dispozitive. Se vor prezenta diferențele dintre protocoalele fizice (e.g., UART, I2C) și cele logice (e.g., protocoale de rețea), precum și avantajele fiecăruia în aplicații specifice.",
+        "solution": {
+          "title": "Comunicare: protocoale fizice și logice",
+          "succinct_answer": [
+            "Comunicarea este schimbul de informație între interlocutori; are mesaj, emițător, canal, receptor, codare, decodare, feedback și zgomot.",
+            "Protocolul fizic/hardware definește semnalele electrice și sincronizarea: UART/USART, I2C, SPI, CAN etc.",
+            "Protocolul logic/software definește structura mesajului: STX, ETX, adresă, comandă, payload, CRC/sumă de control.",
+            "UART este simplu punct-la-punct; I2C permite magistrală cu adrese; SPI este rapid, cu linii separate și semnal chip-select.",
+            "Un protocol bun conține delimitatori, lungime, comandă, date, verificare și reacție la eroare."
+          ],
+          "comparison": [
+            {
+              "protocol": "UART",
+              "lines": "TX/RX/GND",
+              "advantages": "simplu, bun pentru terminale",
+              "limits": "fără adresare nativă"
+            },
+            {
+              "protocol": "I2C",
+              "lines": "SDA/SCL/GND + pull-up",
+              "advantages": "mai multe dispozitive adresate",
+              "limits": "viteză mai mică, distanță scurtă"
+            },
+            {
+              "protocol": "SPI",
+              "lines": "MOSI/MISO/SCK/CS/GND",
+              "advantages": "rapid, full-duplex",
+              "limits": "mai multe fire, CS per slave"
+            }
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v05_hw_sw_protocol_p6.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v05_hw_sw_protocol_p6.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 6,
+            "reason_strict_match": "Diferență protocol hardware / software"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v05_spi_hw_protocol_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v05_spi_hw_protocol_p8.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Exemplu protocol fizic SPI"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v05_i2c_hw_protocol_p12.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v05_i2c_hw_protocol_p12.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 12,
+            "reason_strict_match": "Exemplu protocol fizic I2C"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v05_usart_hw_protocol_p16.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v05_usart_hw_protocol_p16.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 16,
+            "reason_strict_match": "Exemplu protocol fizic USART/UART"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v05_usart_sw_protocol_p18.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v05_usart_sw_protocol_p18.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 18,
+            "reason_strict_match": "Exemplu protocol software peste USART"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație bazată pe un protocol software definit pentru comunicare prin serial între două MCU-uri. Pe primul MCU, datele preluate de la un senzor de temperatură vor fi transmise utilizând un protocol cu STX, ETX, CMD, DATA și CRC. Al doilea MCU va recepționa datele, le va valida și le va afișa pe LCD.",
+          "implementation_details": [
+            "Intrare: Protocol software (STX, ETX, CMD, DATA, CRC) prin interfața serială.",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Soluția este identică în principiu cu varianta 1, cu accent pe separarea protocolului fizic UART de protocolul logic STX/CRC.",
+          "La eroare se resetează parserul."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v05_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v05_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v05_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v05_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v05_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v05_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v05_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v05_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// MCU1: achiziție temperatură și transmitere UART cu protocol STX/ETX/CMD/DATA/CRC\n#define STX 0x02\n#define ETX 0x03\n#define CMD_TEMP 0x10\nuint8_t crc8(uint8_t *b, uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; } // checksum simplu\nvoid sendTemp(int16_t temp10){\n  uint8_t p[4] = {CMD_TEMP, 2, highByte(temp10), lowByte(temp10)}; // CMD, LEN, DATA_H, DATA_L\n  Serial.write(STX);                                           // start cadru\n  Serial.write(p,4);                                           // conținut pachet\n  Serial.write(crc8(p,4));                                     // CRC peste CMD+LEN+DATA\n  Serial.write(ETX);                                           // final cadru\n}\nvoid loop(){\n  int adc = analogRead(A0);                                    // citire senzor temperatură\n  int16_t temp10 = map(adc,0,1023,0,500);                       // conversie: 0..50.0 °C\n  sendTemp(temp10);                                            // transmitere spre MCU2\n  delay(100);                                                  // recurență simplă 100 ms\n}\n\n// MCU2: recepție, verificare CRC și afișare pe LCD prin STDIO\nint lcd_putchar(char ch, FILE *f){ lcd.write(ch); return 0; }  // printf -> LCD\nvoid setup(){ lcd.begin(16,2); fdev_setup_stream(&lcdout,lcd_putchar,NULL,_FDEV_SETUP_WRITE); stdout=&lcdout; }\nbool receiveTemp(int16_t *temp10){\n  static uint8_t buf[5], idx=0, active=0;                       // buffer: CMD LEN DATA_H DATA_L CRC\n  while(Serial.available()){\n    uint8_t b=Serial.read();\n    if(b==STX){ idx=0; active=1; continue; }                    // sincronizare cadru\n    if(!active) continue;                                      // ignoră zgomot înainte de STX\n    if(b==ETX && idx==5){                                      // pachet complet\n      active=0;\n      if(crc8(buf,4)!=buf[4] || buf[0]!=CMD_TEMP) return false; // validare comandă și CRC\n      *temp10 = ((int16_t)buf[2]<<8) | buf[3];                  // reconstrucție valoare\n      return true;\n    }\n    if(idx<5) buf[idx++]=b; else active=0;                      // protecție overflow\n  }\n  return false;\n}\nvoid loop(){ int16_t t; if(receiveTemp(&t)) printf(\"T=%d.%dC\",t/10,t%10); else printf(\"ERR\"); }",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 6,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Control funcțional: Control On/Off cu histerezis. Se vor descrie metodele fundamentale de control utilizate în sistemele IoT, explicând diferențele dintre controlul simplu (On/Off) și cel cu histerezis. Se va discuta despre avantajele și limitările fiecărei metode, precum și despre aplicațiile tipice.",
+        "solution": {
+          "title": "Control On/Off cu histerezis",
+          "succinct_answer": [
+            "Controlul On/Off comută actuatorul între două stări în funcție de eroarea față de prag.",
+            "Fără histerezis, dacă valoarea măsurată oscilează în jurul pragului, actuatorul comută des.",
+            "Histerezisul introduce două praguri: PORNIRE sub pragul inferior și OPRIRE peste pragul superior.",
+            "Avantaj: comutări rare, protecție mecanică/electrică; limitare: precizie mai mică decât PID.",
+            "Aplicații: termostat, ventilator, pompă, motor ON/OFF, protecție de temperatură."
+          ],
+          "law": "\\((motor = OFF \\land x < TH_{ON}) \\Rightarrow motor := ON;\\quad (motor = ON \\land x > TH_{OFF}) \\Rightarrow motor := OFF;\\quad TH_{ON} < TH_{OFF}\\)"
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v06_control_types_p2.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v06_control_types_p2.png",
+            "source_pdf": "SI-21-C10 Control in Embedded Systems(2).pdf",
+            "page": 2,
+            "reason_strict_match": "Tipuri de control: open-loop, on/off, PID, fuzzy"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v06_on_off_control_p4.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v06_on_off_control_p4.png",
+            "source_pdf": "SI-21-C10 Control in Embedded Systems(2).pdf",
+            "page": 4,
+            "reason_strict_match": "Control On/Off"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v06_on_off_hysteresis_p5.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v06_on_off_hysteresis_p5.png",
+            "source_pdf": "SI-21-C10 Control in Embedded Systems(2).pdf",
+            "page": 5,
+            "reason_strict_match": "Control On/Off cu histerezis"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație pentru controlul unui motor DC utilizând metoda On/Off cu histerezis. Pragurile de pornire și oprire vor fi configurabile prin interfața serială, iar starea motorului va fi afișată pe LCD.",
+          "implementation_details": [
+            "Intrare: Interfața serială pentru configurarea pragurilor.",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Histerezisul impune \\(TH_{ON} < TH_{OFF}\\).",
+          "Pragurile se pot modifica din terminal fără recompilare."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v06_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v06_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v06_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v06_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v06_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v06_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v06_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v06_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// Motor DC controlat On/Off cu histerezis; pragurile vin prin interfața serială\n#define MOTOR_EN 9\nint thOn=40, thOff=60; bool motorOn=false;\nvoid readThresholds(){\n  if(Serial.available()){                                      // format: 40 60\\n\n    int a=Serial.parseInt(); int b=Serial.parseInt();           // citire TH_ON și TH_OFF\n    if(a<b){ thOn=a; thOff=b; }                                 // condiție obligatorie pentru histerezis\n  }\n}\nvoid setup(){ Serial.begin(9600); lcd.begin(16,2); pinMode(MOTOR_EN,OUTPUT); }\nvoid loop(){\n  readThresholds();                                             // configurare de la utilizator\n  int x = map(analogRead(A0),0,1023,0,100);                     // feedback proces: viteză/temperatură\n  if(!motorOn && x < thOn)  motorOn=true;                       // prag inferior: pornire\n  if( motorOn && x > thOff) motorOn=false;                      // prag superior: oprire\n  digitalWrite(MOTOR_EN, motorOn);                              // comandă driver motor\n  lcd.setCursor(0,0); lcd.print(\"x=\"); lcd.print(x);           // raportare valoare\n  lcd.setCursor(0,1); lcd.print(motorOn?\"MOTOR ON \":\"MOTOR OFF\"); // raportare stare\n  delay(50);                                                    // perioadă control\n}",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 7,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Automate finite: Proiectarea și utilizarea automatelor finite în IoT. Se va detalia modul în care automatele finite pot fi utilizate pentru a controla fluxurile complexe de execuție într-un sistem IoT. Se vor prezenta diagrame de tranziție, tabele de stare și exemple de implementare a automatelor pentru scenarii reale.",
+        "solution": {
+          "title": "Automate finite în IoT",
+          "succinct_answer": [
+            "FSM este un model cu număr finit de stări, intrări, ieșiri și funcții de tranziție.",
+            "Starea memorează trecutul relevant al sistemului; tranziția apare când o condiție devine adevărată.",
+            "Moore: ieșirea depinde doar de starea curentă; Mealy: ieșirea depinde de stare și intrări.",
+            "Proiectarea pe hârtie: se definește lista stărilor, intrările, ieșirile, tabelul de tranziții și diagrama de stări.",
+            "În IoT este util pentru uși, alarme, semafoare, secvențe de pornire, protecții și comunicare cu retry."
+          ],
+          "fsm_components": [
+            "stări",
+            "intrări",
+            "ieșiri",
+            "stare inițială",
+            "condiții de tranziție",
+            "acțiuni"
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v07_fsm_definition_p2.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v07_fsm_definition_p2.png",
+            "source_pdf": "SI-21-C11 Control cu Automate finite(2).pdf",
+            "page": 2,
+            "reason_strict_match": "Definiția FSM: stări finite, intrări, ieșiri, funcție de tranziție"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v07_fsm_diagram_concepts_p3.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v07_fsm_diagram_concepts_p3.png",
+            "source_pdf": "SI-21-C11 Control cu Automate finite(2).pdf",
+            "page": 3,
+            "reason_strict_match": "Stări, tranziții și acțiuni"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v07_fsm_evaluation_task_p5.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v07_fsm_evaluation_task_p5.png",
+            "source_pdf": "SI-21-C11 Control cu Automate finite(2).pdf",
+            "page": 5,
+            "reason_strict_match": "Ordinea evaluării Moore/Mealy"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v07_fsm_button_led_design_p6.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v07_fsm_button_led_design_p6.png",
+            "source_pdf": "SI-21-C11 Control cu Automate finite(2).pdf",
+            "page": 6,
+            "reason_strict_match": "Exemplu de tabel de stare pentru button/LED"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze un FSM pentru gestionarea unui sistem de securitate al ușii. FSM-ul va include stările: standby, ușă deschisă și ușă închisă. Starea curentă va fi afișată pe interfața serială.",
+          "implementation_details": [
+            "Intrare: Buton pentru comutarea între stări.",
+            "Raportare: Interfața serială.",
+            "Observații: Configurarea STDIO pentru interfața serială.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "FSM-ul are stare inițială STANDBY.",
+          "Raportarea pe serial este ieșirea principală."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v07_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v07_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v07_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v07_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v07_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v07_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v07_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v07_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// FSM pentru sistem de securitate ușă: STANDBY, DOOR_CLOSED, DOOR_OPEN\nenum DoorState {STANDBY, DOOR_CLOSED, DOOR_OPEN};\nDoorState st=STANDBY;\nvoid setup(){ pinMode(BTN,INPUT_PULLUP); Serial.begin(9600); }\nvoid loop(){\n  static bool oldBtn=1; bool btn=digitalRead(BTN);              // buton/contact ușă\n  bool event = (oldBtn==1 && btn==0); oldBtn=btn;               // detecție front pentru comutare\n  switch(st){\n    case STANDBY:     if(event) st=DOOR_CLOSED; break;          // activare sistem\n    case DOOR_CLOSED: if(event) st=DOOR_OPEN;   break;          // ușa s-a deschis\n    case DOOR_OPEN:   if(event) st=DOOR_CLOSED; break;          // ușa s-a închis\n  }\n  if(st==STANDBY) Serial.println(\"STANDBY\");                   // ieșire textuală pe serial\n  if(st==DOOR_CLOSED) Serial.println(\"USA INCHISA\");\n  if(st==DOOR_OPEN) Serial.println(\"USA DESCHISA\");\n  delay(100);                                                   // debounce simplu + recurență\n}",
+        "state_or_parameter_table": [
+          {
+            "state": "STANDBY",
+            "event": "buton",
+            "next": "DOOR_CLOSED",
+            "output": "Serial STANDBY"
+          },
+          {
+            "state": "DOOR_CLOSED",
+            "event": "buton/contact open",
+            "next": "DOOR_OPEN",
+            "output": "Serial USA INCHISA"
+          },
+          {
+            "state": "DOOR_OPEN",
+            "event": "buton/contact closed",
+            "next": "DOOR_CLOSED",
+            "output": "Serial USA DESCHISA"
+          }
+        ],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 8,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Diagnoză și protecții: Detectarea simptomelor și măsuri de protecție. Se vor prezenta tehnicile de monitorizare a parametrilor sistemului și identificarea devierilor de la comportamentul normal. Vor fi detaliate mecanismele de reacție, cum ar fi oprirea automată, semnalizarea vizuală sau acustică, pentru protejarea sistemului și mediului.",
+        "solution": {
+          "title": "Diagnoză și protecții",
+          "succinct_answer": [
+            "Diagnoza identifică natura și cauza unui comportament anormal prin observarea simptomelor.",
+            "Metode: prag (over/under), domeniu valid, plauzibilitate între senzori, stall-in-range.",
+            "Un simptom nu devine eroare imediat; se califică prin filtru temporal/counter anti-bounce.",
+            "Reacții: notificare, inhibiție, limitare, derating, lockout, oprire sigură.",
+            "Protecția aplică reacția pentru a evita deteriorarea sistemului sau pericolul pentru mediu/utilizator."
+          ],
+          "diagnosis_chain": "achiziție -> condiționare -> detectare simptom -> calificare -> manager eroare -> reacție/protecție"
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v08_threshold_symptom_p5.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v08_threshold_symptom_p5.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 5,
+            "reason_strict_match": "Detectare simptom prin prag"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v08_range_symptom_p6.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v08_range_symptom_p6.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 6,
+            "reason_strict_match": "Detectare simptom de tip domeniu valid"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v08_plausibility_symptom_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v08_plausibility_symptom_p7.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Detectare simptom de plauzibilitate"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v08_diagnosis_qualification_p9.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v08_diagnosis_qualification_p9.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 9,
+            "reason_strict_match": "Calificarea diagnosticului prin filtru binar"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v08_derating_protection_p13.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v08_derating_protection_p13.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 13,
+            "reason_strict_match": "Protecție prin derating"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v08_sensor_actuator_diagnosis_protection_p17.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v08_sensor_actuator_diagnosis_protection_p17.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 17,
+            "reason_strict_match": "Asocierea senzor-actuator cu diagnoză și protecție"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație care monitorizează temperatura unui motor DC și oprește motorul la depășirea unui prag critic. Starea curentă este raportată prin interfața serială.",
+          "implementation_details": [
+            "Intrare: Potențiometru pentru setarea pragului critic.",
+            "Raportare: Interfață serială.",
+            "Observații: Configurarea STDIO pentru raportarea prin interfața serială.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Temperatura peste prag produce simptom, dar motorul se oprește doar după calificare temporală.",
+          "Resetarea protecției se face cu histerezis."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v08_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v08_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v08_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v08_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v08_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v08_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v08_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v08_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// Protecție motor DC: oprire la depășirea temperaturii critice\n#define MOTOR_EN 9\nuint8_t faultCnt=0; bool motorAllowed=true;\nvoid setup(){ Serial.begin(9600); pinMode(MOTOR_EN,OUTPUT); }\nvoid loop(){\n  int temp = map(analogRead(A0),0,1023,0,150);                  // temperatură motor [°C]\n  int critical = map(analogRead(A1),0,1023,40,120);             // prag critic din potențiometru\n  bool symptom = (temp > critical);                             // simptom threshold over-temperature\n  if(symptom && faultCnt<10) faultCnt++;                        // calificare prin counter\n  if(!symptom && faultCnt>0) faultCnt--;                        // descalificare lentă\n  if(faultCnt>=5) motorAllowed=false;                           // diagnostic calificat -> protecție\n  if(!symptom && temp < critical-5) motorAllowed=true;           // reset cu histerezis\n  digitalWrite(MOTOR_EN, motorAllowed);                         // oprire motor la fault\n  Serial.print(\"T=\"); Serial.print(temp); Serial.print(\" TH=\"); Serial.print(critical);\n  Serial.println(motorAllowed ? \" MOTOR_OK\" : \" MOTOR_OFF_FAULT\"); // raportare stare\n  delay(100);\n}",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 9,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Interacțiunea cu utilizatorul: Utilizarea STDIO pentru interfața cu utilizatorul. Se va explica importanța interfeței standard de intrare/ieșire (STDIO) pentru dezvoltarea aplicațiilor IoT. Vor fi discutate funcțiile standard precum printf() și scanf(), împreună cu utilizarea lor în interacțiunea cu terminalele seriale și dispozitivele externe.",
+        "solution": {
+          "title": "STDIO pentru interfața cu utilizatorul",
+          "succinct_answer": [
+            "STDIO oferă funcții standard de intrare/ieșire: printf(), scanf(), getchar(), putchar().",
+            "În embedded, aceste funcții sunt redirecționate spre periferice: UART, LCD, keypad, LED sau buton.",
+            "Avantaj: codul aplicației nu depinde de dispozitivul fizic; schimbarea terminalului cu LCD se face în driverul putchar/getchar.",
+            "Pentru UART: putchar trimite un byte pe TX, getchar așteaptă byte pe RX.",
+            "Pentru LCD/keypad: putchar afișează caracterul pe LCD, getchar returnează tasta apăsată."
+          ],
+          "minimal_binding": "FILE stream; fdev_setup_stream(&stream, putChar, getChar, _FDEV_SETUP_RW); stdout = stdin = &stream;"
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v09_stdio_interface_p20.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v09_stdio_interface_p20.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 20,
+            "reason_strict_match": "Principiul STDIO"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v09_stdio_uart_p21.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v09_stdio_uart_p21.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 21,
+            "reason_strict_match": "Legarea STDIO la UART/Serial"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v09_serial_terminal_p22.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v09_serial_terminal_p22.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 22,
+            "reason_strict_match": "Interacțiune utilizator prin terminal serial"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v09_stdio_keypad_lcd_p27.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v09_stdio_keypad_lcd_p27.png",
+            "source_pdf": "SI-20-C02 User Interaction(2).pdf",
+            "page": 27,
+            "reason_strict_match": "Legarea STDIO la keypad/LCD"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație pentru trimiterea datelor de la un senzor de lumină către un al doilea MCU utilizând un protocol software pe interfața serială. Al doilea MCU va afișa datele primite pe LCD.",
+          "implementation_details": [
+            "Intrare: Protocol software pe serial (STX, ETX, CMD, DATA, CRC).",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Lumina este achiziționată pe MCU1 și transmisă ca payload numeric.",
+          "LCD se actualizează doar după CRC valid."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v09_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v09_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v09_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v09_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v09_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v09_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v09_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v09_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// MCU1: achiziție lumină și transmitere UART cu protocol STX/ETX/CMD/DATA/CRC\n#define STX 0x02\n#define ETX 0x03\n#define CMD_LIGHT 0x30\nuint8_t crc8(uint8_t *b, uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; } // checksum simplu\nvoid sendLight(int16_t light10){\n  uint8_t p[4] = {CMD_LIGHT, 2, highByte(light10), lowByte(light10)}; // CMD, LEN, DATA_H, DATA_L\n  Serial.write(STX);                                           // start cadru\n  Serial.write(p,4);                                           // conținut pachet\n  Serial.write(crc8(p,4));                                     // CRC peste CMD+LEN+DATA\n  Serial.write(ETX);                                           // final cadru\n}\nvoid loop(){\n  int adc = analogRead(A0);                                    // citire senzor lumină LDR/divizor\n  int16_t light10 = map(adc,0,1023,0,1000);                    // conversie: 0.0..100.0 % lumină\n  sendLight(light10);                                          // transmitere spre MCU2\n  delay(100);                                                  // recurență simplă 100 ms\n}\n\n// MCU2: recepție, verificare CRC și afișare lumină pe LCD\nbool receiveLight(int16_t *light10){\n  static uint8_t buf[5], idx=0, active=0;                       // CMD LEN DATA_H DATA_L CRC\n  while(Serial.available()){\n    uint8_t b=Serial.read();\n    if(b==STX){ idx=0; active=1; continue; }                    // sincronizare început cadru\n    if(!active) continue;                                      // ignoră zgomotul\n    if(b==ETX && idx==5){                                      // cadru complet\n      active=0;\n      if(crc8(buf,4)!=buf[4] || buf[0]!=CMD_LIGHT) return false; // validare CRC + comandă\n      *light10 = ((int16_t)buf[2]<<8) | buf[3];                 // reconstruiește valoarea\n      return true;\n    }\n    if(idx<5) buf[idx++]=b; else active=0;                      // protecție overflow\n  }\n  return false;\n}\nvoid loop_mcu2(){ int16_t l; if(receiveLight(&l)) printf(\"L=%d.%d%%\",l/10,l%10); else printf(\"ERR\"); }",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 10,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Senzori: Prelucrarea și condiționarea semnalului achiziționat. Se va detalia procesul de prelucrare a semnalelor achiziționate de la senzori, inclusiv metodele de conversie și filtrare. Vor fi descrise tehnici precum filtrul mediere ponderată și alte metode utilizate pentru eliminarea zgomotelor sau îmbunătățirea preciziei datelor.",
+        "solution": {
+          "title": "Prelucrarea și condiționarea semnalului",
+          "succinct_answer": [
+            "Semnalul este evoluția în timp a informației; înainte de control trebuie filtrat, limitat și convertit în unități fizice.",
+            "Condiționarea hardware adaptează nivelul electric la MCU: divizor, amplificator, filtru RC, protecție la supratensiune.",
+            "Condiționarea software elimină zgomotul: mediere ponderată, mediană, limitare min/max, conversie liniară.",
+            "Filtrul de mediere ponderată: \\(y[k] = \\alpha x[k] + (1-\\alpha)y[k-1],\\; 0 < \\alpha < 1\\).",
+            "Filtrarea crește stabilitatea, dar introduce întârziere; coeficientul se alege în funcție de dinamica semnalului."
+          ],
+          "processing_flow": "ADC/digital read -> saturare -> filtru -> conversie fizică -> diagnoză/control/comunicare"
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v10_hw_conditioning_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v10_hw_conditioning_p8.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Condiționare HW: amplificare/atenuare/saturare"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v10_hw_filtering_p9.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v10_hw_filtering_p9.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 9,
+            "reason_strict_match": "Filtrare hardware"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v10_sw_saturate_p12.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v10_sw_saturate_p12.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 12,
+            "reason_strict_match": "Saturare software"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v10_median_filter_p13.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v10_median_filter_p13.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 13,
+            "reason_strict_match": "Filtru median/salt-and-pepper"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v10_weighted_average_p14.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v10_weighted_average_p14.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 14,
+            "reason_strict_match": "Filtru de mediere ponderată"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v10_linear_conversion_p15.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v10_linear_conversion_p15.png",
+            "source_pdf": "SI-21-C06 Sensor - Signal Conditioning(2).pdf",
+            "page": 15,
+            "reason_strict_match": "Conversie liniară / neliniară"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație care preia semnalul de la un senzor de vibrații, îl condiționează utilizând un filtru mediere ponderată și transmite datele procesate prin interfața serială la un al doilea MCU. Al doilea MCU le va afișa pe LCD.",
+          "implementation_details": [
+            "Intrare: Filtrare semnal de la senzor pe primul MCU.",
+            "Raportare: LCD pe al doilea MCU.",
+            "Observații: Configurarea STDIO pentru LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Medierea ponderată reduce zgomotul vibrației.",
+          "Coeficientul alpha mare reacționează rapid, alpha mic filtrează mai puternic."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v10_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v10_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v10_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v10_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v10_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v10_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v10_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v10_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// MCU1: senzor vibrații, mediere ponderată, transmitere serială\n#define CMD_VIB 0x31\nfloat filt=0.0f; const float alpha=0.20f;\nuint8_t crc8(uint8_t *b,uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; }\nint16_t filterVibration(){\n  int raw = analogRead(A0);                                     // achiziție vibrație\n  raw = constrain(raw, 0, 1023);                                // saturare software\n  filt = alpha*raw + (1.0f-alpha)*filt;                         // filtru mediere ponderată\n  return (int16_t)filt;                                         // valoare filtrată pentru protocol\n}\nvoid sendVib(int16_t v){\n  uint8_t p[4]={CMD_VIB,2,highByte(v),lowByte(v)};              // CMD+LEN+DATA\n  Serial.write(STX); Serial.write(p,4); Serial.write(crc8(p,4)); Serial.write(ETX); // cadru complet\n}\nvoid loop(){ sendVib(filterVibration()); delay(20); }           // recurență 20 ms\n\n// MCU2: aceeași recepție ca la protocolul UART, dar CMD=CMD_VIB\n// Dacă CRC este valid: printf pe LCD \"VIB=<valoare>\"; altfel \"CRC ERR\".",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 11,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Actuatori: Interfațarea și controlul dispozitivelor de acționare. Se va analiza modul în care actuatoarele sunt integrate în sisteme IoT pentru a răspunde comenzilor de control. Vor fi descrise tehnici de utilizare a PWM pentru actuatoare analogice și modalități de gestionare a stărilor discrete pentru actuatoare binare.",
+        "solution": {
+          "title": "Actuatori: interfațare și control",
+          "succinct_answer": [
+            "Actuatorul se conectează la MCU prin driver de putere, deoarece pinul MCU nu poate alimenta direct sarcini mari.",
+            "Actuator binar: comandă GPIO ON/OFF prin tranzistor/releu; exemplu pompă, releu, solenoid.",
+            "Actuator analogic/timp: PWM controlează energia medie aplicată; exemplu LED RGB, motor DC, încălzitor.",
+            "Pentru PWM se definesc frecvența și duty-cycle; duty mai mare înseamnă intensitate/viteză/putere mai mare.",
+            "Se adaugă protecții: rezistențe pentru LED, diodă flyback pentru releu/motor, limitare duty și diagnoză."
+          ],
+          "pwm_note": "PWM = semnal digital periodic; valoarea efectivă este proporțională cu duty-cycle."
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v11_actuator_binary_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v11_actuator_binary_p7.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Actuator cu interfață binară"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v11_actuator_analog_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v11_actuator_analog_p8.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Actuator cu interfață analogică"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v11_actuator_time_based_p10.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v11_actuator_time_based_p10.png",
+            "source_pdf": "SI-21-C07 Actuators - Actions(2).pdf",
+            "page": 10,
+            "reason_strict_match": "Actuator controlat prin timp/PWM"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v11_pwm_generation_p15.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v11_pwm_generation_p15.png",
+            "source_pdf": "SI-21-C08 Actuator - Power Conversion(2).pdf",
+            "page": 15,
+            "reason_strict_match": "Generare PWM pentru actuator"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v11_signal_generation_p17.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v11_signal_generation_p17.png",
+            "source_pdf": "SI-21-C08 Actuator - Power Conversion(2).pdf",
+            "page": 17,
+            "reason_strict_match": "Generarea semnalului spre actuator"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație pentru controlul unui LED RGB utilizând PWM. Intensitatea culorii LED-ului va fi reglată prin comenzi trimise de un al doilea MCU utilizând un protocol serial simplu.",
+          "implementation_details": [
+            "Intrare: Protocol software pe interfața serială (STX, ETX, CMD, DATA, CRC).",
+            "Raportare: Interfața serială.",
+            "Observații: Configurarea STDIO pentru interfața serială.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "PWM se aplică independent pe canalele R, G, B.",
+          "Pachetele invalide nu modifică duty-cycle-ul curent."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v11_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v11_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v11_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v11_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v11_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v11_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v11_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v11_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// MCU1: LED RGB comandat prin PWM după pachet primit pe UART\n#define CMD_RGB 0x40\n#define PIN_R 3\n#define PIN_G 5\n#define PIN_B 6\nuint8_t crc8(uint8_t *b,uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; }\nbool receiveRGB(uint8_t *r,uint8_t *g,uint8_t *b){\n  uint8_t p[6];                                                // CMD LEN R G B CRC\n  if(!readFrame(p,6)) return false;                            // parser STX/ETX comun\n  if(p[0]!=CMD_RGB || p[1]!=3) return false;                    // validare comandă/lungime\n  if(crc8(p,5)!=p[5]) return false;                             // verificare CRC\n  *r=p[2]; *g=p[3]; *b=p[4]; return true;                       // valori PWM 0..255\n}\nvoid setup(){ Serial.begin(9600); pinMode(PIN_R,OUTPUT); pinMode(PIN_G,OUTPUT); pinMode(PIN_B,OUTPUT); }\nvoid loop(){\n  uint8_t r,g,b;\n  if(receiveRGB(&r,&g,&b)){                                    // aplicare numai la pachet valid\n    analogWrite(PIN_R,r); analogWrite(PIN_G,g); analogWrite(PIN_B,b); // duty-cycle RGB\n    Serial.println(\"ACK RGB\");                                  // raportare stare\n  } else {\n    Serial.println(\"WAIT/ERR\");                                 // diagnoză comunicare\n  }\n}\n\n// MCU2: creează pachet: STX CMD_RGB 3 R G B CRC ETX și îl transmite la schimbarea comenzii.",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 12,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Sisteme de operare pentru IoT: Sisteme secvențiale și preemptive. Se vor descrie diferențele dintre execuția secvențială și cea preemptivă în sistemele IoT. Vor fi discutate avantajele utilizării unui sistem de operare în timp real (RTOS), precum FreeRTOS, pentru gestionarea sarcinilor complexe.",
+        "solution": {
+          "title": "Sisteme de operare secvențiale și preemptive",
+          "succinct_answer": [
+            "În sistemul secvențial, un singur fir de execuție apelează taskurile planificate pe timp/eveniment.",
+            "În sistemul preemptiv, schedulerul poate întrerupe taskul curent și comuta contextul spre alt task mai prioritar.",
+            "RTOS gestionează timp de procesare, stive, priorități, întârzieri, cozi, semafoare și sincronizare.",
+            "FreeRTOS permite taskuri concurente: achiziție, afișare, comunicare, control.",
+            "Avantaj RTOS: modularitate și reacție rapidă; cost: memorie suplimentară, configurare și risc de concurență."
+          ],
+          "comparison": [
+            {
+              "criterion": "Execuție",
+              "sequential": "ordine fixă în loop",
+              "preemptive": "scheduler cu priorități"
+            },
+            {
+              "criterion": "Blocare",
+              "sequential": "un task lung blochează sistemul",
+              "preemptive": "taskurile pot fi întrerupte"
+            },
+            {
+              "criterion": "Comunicare",
+              "sequential": "variabile globale simple",
+              "preemptive": "queue/semafor/mutex"
+            }
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v12_event_interrupt_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v12_event_interrupt_p7.png",
+            "source_pdf": "SI-21-C03 Operating Systems - Sequential(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Execuție secvențială bazată pe evenimente"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v12_task_recurrence_order_p9.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v12_task_recurrence_order_p9.png",
+            "source_pdf": "SI-21-C03 Operating Systems - Sequential(2).pdf",
+            "page": 9,
+            "reason_strict_match": "Recurență și offset în sistem secvențial"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v12_context_switch_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v12_context_switch_p8.png",
+            "source_pdf": "SI-21-C04 Sisteme de Operare - Preemptive(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Preempțiune: salvare/restaurare context"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v12_preemptive_vs_non_p9.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v12_preemptive_vs_non_p9.png",
+            "source_pdf": "SI-21-C04 Sisteme de Operare - Preemptive(2).pdf",
+            "page": 9,
+            "reason_strict_match": "Preemptiv vs nepreemptiv"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v12_freertos_state_flow_p12.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v12_freertos_state_flow_p12.png",
+            "source_pdf": "SI-21-C04 Sisteme de Operare - Preemptive(2).pdf",
+            "page": 12,
+            "reason_strict_match": "Flux de stări FreeRTOS"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v12_freertos_queue_p16.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v12_freertos_queue_p16.png",
+            "source_pdf": "SI-21-C04 Sisteme de Operare - Preemptive(2).pdf",
+            "page": 16,
+            "reason_strict_match": "Comunicare între taskuri prin queue"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație în FreeRTOS care rulează trei taskuri: achiziția datelor de la un senzor, afișarea pe LCD a valorilor și raportarea pe interfața serială a stării sistemului.",
+          "implementation_details": [
+            "Intrare: Senzor conectat la primul task.",
+            "Raportare: LCD și interfața serială.",
+            "Observații: Configurarea STDIO pentru raportarea pe interfața serială și afișare pe LCD.",
+            "Aplicația trebuie să ruleze în taskuri preemptive utilizând FreeRTOS."
+          ]
+        },
+        "short_approach": [
+          "FreeRTOS separă achiziția, LCD și raportarea serială în taskuri independente.",
+          "Queue-ul elimină accesul nesincronizat la date."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v12_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v12_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v12_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v12_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v12_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v12_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v12_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v12_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// FreeRTOS: 3 taskuri - achiziție senzor, afișare LCD, raportare serială\nQueueHandle_t qSensor;                                         // comunicare sigură între taskuri\ntypedef struct { int value; bool valid; } SensorMsg;\nvoid TaskSensor(void *p){\n  SensorMsg m;\n  for(;;){\n    int raw=analogRead(A0);                                    // achiziție periodică\n    m.value=map(raw,0,1023,0,100);                              // conversie în unități aplicație\n    m.valid=true;                                               // aici se poate adăuga diagnoză\n    xQueueOverwrite(qSensor,&m);                                // trimite ultima valoare\n    vTaskDelay(pdMS_TO_TICKS(50));                              // recurență 50 ms\n  }\n}\nvoid TaskLCD(void *p){\n  SensorMsg m;\n  for(;;){\n    if(xQueueReceive(qSensor,&m,pdMS_TO_TICKS(100))){           // primește valoarea senzorului\n      lcd.setCursor(0,0); lcd.print(\"S=\"); lcd.print(m.value); // afișare LCD\n    }\n  }\n}\nvoid TaskSerial(void *p){\n  SensorMsg m;\n  for(;;){\n    if(xQueuePeek(qSensor,&m,0)){                               // citește fără a consuma mesajul\n      Serial.print(\"STATE OK, S=\"); Serial.println(m.value);    // raportare serială\n    }\n    vTaskDelay(pdMS_TO_TICKS(500));                             // raportare mai rară\n  }\n}\nvoid setup(){ Serial.begin(9600); lcd.begin(16,2); qSensor=xQueueCreate(1,sizeof(SensorMsg)); xTaskCreate(TaskSensor,\"sns\",128,NULL,2,NULL); xTaskCreate(TaskLCD,\"lcd\",128,NULL,1,NULL); xTaskCreate(TaskSerial,\"ser\",128,NULL,1,NULL); vTaskStartScheduler(); }\nvoid loop(){}                                                   // controlul este preluat de scheduler",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 14,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Comunicare internă: Protocoale pentru comunicare între dispozitive. Se va analiza utilizarea protocoalelor I2C, SPI sau UART pentru schimbul de date între componentele unui sistem IoT, inclusiv avantajele și limitările fiecăruia.",
+        "solution": {
+          "title": "Comunicare internă I2C, SPI, UART",
+          "succinct_answer": [
+            "Protocoalele interne conectează MCU-uri, senzori, actuatoare și display-uri în același dispozitiv IoT.",
+            "I2C: magistrală cu SDA/SCL, rezistențe pull-up, adresare, potrivit pentru senzori și LCD-uri.",
+            "SPI: MOSI/MISO/SCK/CS, rapid și full-duplex, potrivit pentru display-uri, memorii, ADC-uri rapide.",
+            "UART: TX/RX asincron, simplu punct-la-punct sau terminal serial; necesită baudrate comun.",
+            "Alegerea depinde de viteză, număr de fire, distanță, număr de dispozitive și complexitatea software."
+          ],
+          "bus_rules": [
+            "GND comun între module",
+            "niveluri logice compatibile",
+            "pull-up pentru I2C",
+            "CS separat pentru fiecare SPI slave",
+            "baudrate identic la UART"
+          ]
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v14_hw_protocol_spi_i2c_p4.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v14_hw_protocol_spi_i2c_p4.png",
+            "source_pdf": "SI-21-C15 Communication - Information transfer(2).pdf",
+            "page": 4,
+            "reason_strict_match": "Protocol hardware cu exemple SPI/I2C"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v14_spi_hw_protocol_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v14_spi_hw_protocol_p8.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 8,
+            "reason_strict_match": "SPI: serial, peer-to-peer, lanț"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v14_i2c_hw_protocol_p12.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v14_i2c_hw_protocol_p12.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 12,
+            "reason_strict_match": "I2C: magistrală SDA/SCL"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v14_usart_hw_protocol_p16.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v14_usart_hw_protocol_p16.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 16,
+            "reason_strict_match": "USART/UART: start, data, parity, stop"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v14_usart_sw_protocol_p18.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v14_usart_sw_protocol_p18.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 18,
+            "reason_strict_match": "Protocol software peste USART"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație care folosește protocolul I2C pentru a transmite datele achiziționate de la un senzor de temperatură către un al doilea MCU. Al doilea MCU va afișa datele pe LCD.",
+          "implementation_details": [
+            "Intrare: Protocol I2C.",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru afișarea pe LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "I2C transmite CMD+DATA+CRC; liniile SDA/SCL necesită pull-up.",
+          "MCU2 afișează datele doar după verificare."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v14_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v14_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v14_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v14_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v14_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v14_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v14_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v14_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// MCU1: achiziție temperatură și trimitere prin I2C către MCU2\n#define SLAVE_ADDR 0x12\n#define CMD_TEMP 0x10\nuint8_t crc8(uint8_t *b,uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; }\nvoid sendTemperature(uint16_t temp10){\n  uint8_t p[4] = {CMD_TEMP, 2, highByte(temp10), lowByte(temp10)}; // temperatură în zecimi de grad\n  Wire.beginTransmission(SLAVE_ADDR);                          // MCU2 este slave I2C\n  Wire.write(p,4);                                             // CMD+LEN+DATA\n  Wire.write(crc8(p,4));                                       // verificare integritate\n  Wire.endTransmission();                                      // final tranzacție\n}\nvoid loop(){\n  uint16_t temp10 = readTemperature10();                        // funcție driver senzor temperatură\n  sendTemperature(temp10);                                     // transmitere periodică\n  delay(200);                                                  // recurență 200 ms\n}\n\n// MCU2: callback I2C, CRC și LCD prin STDIO\nvolatile bool newData=false; volatile uint16_t temperature10=0; volatile bool rxOk=false;\nvoid onRx(int n){\n  uint8_t b[5]; for(uint8_t i=0;i<5 && Wire.available();i++) b[i]=Wire.read(); // citire frame fix\n  rxOk = (n==5 && b[0]==CMD_TEMP && b[1]==2 && crc8(b,4)==b[4]); // validare lungime/comandă/CRC\n  if(rxOk) temperature10 = ((uint16_t)b[2]<<8) | b[3];          // extragere DATA\n  newData=true;                                                // semnalizare spre loop\n}\nint lcd_putchar(char ch, FILE *f){ lcd.write(ch); return 0; }  // printf pe LCD\nvoid setup(){ Wire.begin(SLAVE_ADDR); Wire.onReceive(onRx); lcd.begin(16,2); stdout=&lcdout; }\nvoid loop_mcu2(){ if(newData){ newData=false; if(rxOk) printf(\"T=%u.%uC\",temperature10/10,temperature10%10); else printf(\"I2C CRC ERR\"); } }",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 15,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Diagnoză: Detectarea și gestionarea erorilor în sisteme IoT. Se vor descrie metodele de identificare a erorilor prin monitorizarea indicatorilor de stare și prin mecanisme de verificare a consistenței datelor.",
+        "solution": {
+          "title": "Diagnoză: detectarea erorilor în comunicare",
+          "succinct_answer": [
+            "În comunicare, eroarea se detectează prin delimitare incorectă, lungime greșită, comandă necunoscută, timeout sau CRC invalid.",
+            "CRC/suma de control se calculează la emițător pe câmpurile utile și se verifică la receptor.",
+            "Simptomul de eroare se califică prin numărare: o eroare izolată se ignoră, erorile repetate devin diagnostic valid.",
+            "Reacții: afișare ERR pe LCD, retransmitere, resetare parser, trecere în stare sigură, logare.",
+            "Protocol minim: STX, CMD, LEN, DATA, CRC, ETX; receptorul folosește FSM pentru parsare."
+          ],
+          "error_chain": "byte stream -> parser -> verificare STX/ETX/LEN -> CRC -> diagnostic counter -> raportare/protecție"
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v15_threshold_symptom_p5.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v15_threshold_symptom_p5.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 5,
+            "reason_strict_match": "Praguri pentru detectarea abaterilor"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v15_diagnosis_qualification_p9.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v15_diagnosis_qualification_p9.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 9,
+            "reason_strict_match": "Calificarea diagnosticului"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v15_reaction_qualified_p10.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v15_reaction_qualified_p10.png",
+            "source_pdf": "SI-21-C09 Diagnosis-Protection(2).pdf",
+            "page": 10,
+            "reason_strict_match": "Reacții la diagnostic calificat"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v15_usart_sw_protocol_p18.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v15_usart_sw_protocol_p18.png",
+            "source_pdf": "SI-21-C14 Communication - Device Interconnection(2).pdf",
+            "page": 18,
+            "reason_strict_match": "Pachet software cu STX/ETX/CMD/Payload/SC"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v15_usart_solution_example_p5.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v15_usart_solution_example_p5.png",
+            "source_pdf": "SI-21-C15 Communication - Information transfer(2).pdf",
+            "page": 5,
+            "reason_strict_match": "Recepție/verificare/interpretare și emitere/împachetare/SC"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație care detectează erori în comunicarea dintre două MCU-uri utilizând un protocol software serial. Pe primul MCU, se generează un mesaj cu CRC inclus. Pe al doilea MCU, mesajul este recepționat, iar CRC este verificat. Starea sistemului este afișată pe LCD.",
+          "implementation_details": [
+            "Intrare: Protocol software serial (STX, ETX, CMD, DATA, CRC).",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru afișarea pe LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "Eroarea de CRC este diagnosticată prin counter, nu printr-o singură apariție.",
+          "Starea OK/ERR este afișată pe LCD."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v15_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v15_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v15_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v15_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v15_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v15_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v15_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v15_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// Comunicare cu diagnostic de CRC între două MCU-uri\n#define STX 0x02\n#define ETX 0x03\n#define CMD_DATA 0x55\nuint8_t crc8(uint8_t *b,uint8_t n){ uint8_t c=0; for(uint8_t i=0;i<n;i++) c^=b[i]; return c; }\n// MCU1: trimite periodic un mesaj cu CRC\nvoid sendMsg(uint8_t data){\n  uint8_t p[3]={CMD_DATA,1,data};                               // CMD, LEN, DATA\n  Serial.write(STX); Serial.write(p,3); Serial.write(crc8(p,3)); Serial.write(ETX); // cadru complet\n}\n\n// MCU2: parser + manager simplu de erori\nuint8_t errCnt=0;\nvoid processFrame(uint8_t *p){\n  bool ok = (p[0]==CMD_DATA && p[1]==1 && crc8(p,3)==p[3]);      // validare comandă/lungime/CRC\n  if(ok){\n    errCnt=0;                                                   // eroarea dispare la cadru valid\n    lcd.setCursor(0,0); lcd.print(\"RX OK DATA=\"); lcd.print(p[2]);\n  } else {\n    if(errCnt<10) errCnt++;                                     // calificare diagnostic prin counter\n    lcd.setCursor(0,0); lcd.print(\"CRC ERROR     \");\n  }\n  if(errCnt>=3){ lcd.setCursor(0,1); lcd.print(\"COM FAULT\"); }  // diagnostic calificat\n}\nvoid loop(){\n  uint8_t p[4];\n  if(readFrame(p,4)) processFrame(p);                           // readFrame verifică STX/ETX și timeout\n}",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    },
+    {
+      "variant": 16,
+      "task_1": {
+        "original_task": "Structura generică a unui dispozitiv IoT. Se așteaptă explicarea arhitecturii generice a unui dispozitiv IoT, incluzând componentele esențiale: senzori, actuatoare, module de comunicație, gestionarea energiei și stocarea datelor. Prezentați o diagramă clară și o scurtă definiție a componentelor, incluzând rolul acestora în funcționarea sistemului.",
+        "solution_ref": "common_task_1_solution",
+        "student_style_summary": "Se descrie arhitectura generică IoT din diagrama atașată: senzori și UI ca intrări, aplicație/platformă/OS ca nucleu de procesare, actuatoare ca ieșiri, COM pentru conectivitate, DB pentru stocare și POW pentru alimentare.",
+        "diagram_path": {
+          "note": "Diagrama cerută pentru taskul 1 este fotografia atașată de utilizator.",
+          "relative_path": "embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task1_generic_iot_architecture.png",
+          "original_sandbox_path": "/mnt/data/image.png"
+        }
+      },
+      "task_2": {
+        "original_task": "Control PID: Se vor descrie principiile controlului PID și implementarea acestuia pentru a optimiza funcționarea dispozitivelor IoT care necesită control precis.",
+        "solution": {
+          "title": "Control PID",
+          "succinct_answer": [
+            "PID controlează o mărime prin eroarea dintre valoarea dorită și valoarea măsurată: \\(e[k] = r[k] - y[k]\\).",
+            "Componenta P reacționează proporțional cu eroarea curentă; I elimină eroarea staționară; D anticipează variația erorii.",
+            "Implementarea discretă calculează periodic termenii P, I, D și limitează ieșirea la domeniul actuatorului.",
+            "Pentru motor DC, intrarea este viteza dorită, feedbackul vine de la encoder, ieșirea este duty-cycle PWM.",
+            "Sunt necesare saturare, anti-windup pentru integrală și perioadă de eșantionare constantă."
+          ],
+          "equation_discrete": "\\(u[k] = K_P e[k] + K_I \\sum_{i=0}^{k} e[i]\\Delta t + K_D \\frac{e[k]-e[k-1]}{\\Delta t}\\)"
+        },
+        "matching_slide_diagrams": [
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v16_pid_proportional_p6.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v16_pid_proportional_p6.png",
+            "source_pdf": "SI-21-C10 Control in Embedded Systems(2).pdf",
+            "page": 6,
+            "reason_strict_match": "Componenta proporțională PID"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v16_pid_equation_p7.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v16_pid_equation_p7.png",
+            "source_pdf": "SI-21-C10 Control in Embedded Systems(2).pdf",
+            "page": 7,
+            "reason_strict_match": "Ecuația PID discretizată"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v16_pid_tuning_p8.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v16_pid_tuning_p8.png",
+            "source_pdf": "SI-21-C10 Control in Embedded Systems(2).pdf",
+            "page": 8,
+            "reason_strict_match": "Pași de reglaj PID"
+          },
+          {
+            "relative_path": "embedded_exam_resolved_assets/slide_diagrams/v16_control_example_2wd_p10.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/slide_diagrams/v16_control_example_2wd_p10.png",
+            "source_pdf": "SI-21-C10 Control in Embedded Systems(2).pdf",
+            "page": 10,
+            "reason_strict_match": "Exemplu control platformă 2WD"
+          }
+        ]
+      },
+      "task_3": {
+        "original_task": {
+          "text": "Problema: Să se implementeze o aplicație care reglează viteza unui motor DC utilizând un senzor encoder și control PID. Parametrii PID vor fi configurați prin interfața serială, iar rezultatele vor fi afișate pe LCD.",
+          "implementation_details": [
+            "Intrare: Parametrii PID setați prin interfața serială.",
+            "Raportare: LCD.",
+            "Observații: Configurarea STDIO pentru afișarea pe LCD.",
+            "Aplicația trebuie să ruleze în taskuri secvențiale sau FreeRTOS, la alegere."
+          ]
+        },
+        "short_approach": [
+          "PID rulează periodic cu dt aproape constant.",
+          "Anti-windup și saturarea PWM sunt critice pentru motor."
+        ],
+        "electrical_interconnection_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v16_electrical_interconnection.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v16_electrical_interconnection.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v16_electrical_interconnection.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v16_electrical_interconnection.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "functional_program_block_diagram": {
+          "diagram_png": {
+            "relative_path": "embedded_exam_resolved_assets/task3_diagrams/v16_functional_program_blocks.png",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/task3_diagrams/v16_functional_program_blocks.png"
+          },
+          "diagram_source_dot": {
+            "relative_path": "embedded_exam_resolved_assets/diagram_sources_dot/v16_functional_program_blocks.dot",
+            "sandbox_path": "/mnt/data/embedded_exam_resolved_assets/diagram_sources_dot/v16_functional_program_blocks.dot"
+          },
+          "generated_with": "Graphviz DOT"
+        },
+        "critical_commented_source_code": "// Control PID pentru viteză motor DC cu encoder și PWM\nfloat Kp=1.0f, Ki=0.1f, Kd=0.01f, setpoint=100.0f;\nfloat integ=0.0f, prevErr=0.0f; unsigned long lastMs=0;\nvoid readPIDParams(){\n  if(Serial.available()){                                      // format: Kp Ki Kd SP\\n\n    Kp=Serial.parseFloat(); Ki=Serial.parseFloat(); Kd=Serial.parseFloat(); setpoint=Serial.parseFloat(); // configurare\n  }\n}\nvoid controlTask(){\n  unsigned long now=millis(); float dt=(now-lastMs)/1000.0f; if(dt<=0) return; lastMs=now; // perioadă discretă\n  float speed = readEncoderRpm();                               // feedback encoder\n  float err = setpoint - speed;                                 // eroare de control\n  integ += err*dt; integ = constrain(integ,-500,500);            // integrală cu anti-windup\n  float deriv = (err-prevErr)/dt; prevErr=err;                   // derivata erorii\n  float u = Kp*err + Ki*integ + Kd*deriv;                        // lege PID discretă\n  int duty = constrain((int)u,0,255);                            // saturare la domeniul PWM\n  analogWrite(MOTOR_PWM,duty);                                  // comandă driver motor\n  lcd.setCursor(0,0); lcd.print(\"RPM=\"); lcd.print(speed);      // raportare LCD\n  lcd.setCursor(0,1); lcd.print(\"PWM=\"); lcd.print(duty);\n}\nvoid loop(){ readPIDParams(); controlTask(); delay(10); }        // recurență control aprox. 10 ms",
+        "state_or_parameter_table": [],
+        "diagram_tool_note": "Diagramele Task 3 au fost generate local cu Graphviz DOT; fișierele .dot sunt incluse pentru editare."
+      }
+    }
+  ]
+}

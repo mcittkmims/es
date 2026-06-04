@@ -1,0 +1,16 @@
+digraph v11_functional_program_blocks {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 11 - schemă bloc funcțională program"
+	node [fontsize=10 shape=box]
+	A [label="MCU2 citește comanda R,G,B"]
+	B [label="formează pachet serial"]
+	C [label="MCU1 primește + CRC"]
+	D [label="limitează 0..255"]
+	E [label="analogWrite R/G/B"]
+	F [label="printf stare/ACK"]
+	A -> B [label="" fontsize=9]
+	B -> C [label="" fontsize=9]
+	C -> D [label="" fontsize=9]
+	D -> E [label="" fontsize=9]
+	E -> F [label="" fontsize=9]
+}

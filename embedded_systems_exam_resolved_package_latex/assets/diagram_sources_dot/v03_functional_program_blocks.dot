@@ -1,0 +1,19 @@
+digraph v03_functional_program_blocks {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 3 - schemă bloc funcțională program"
+	node [fontsize=10 shape=box]
+	A [label="Citește potențiometru"]
+	B [label="calculează prag"]
+	C [label="citește variabilă proces"]
+	D [label="compară cu prag"]
+	E [label="releu ON"]
+	F [label="releu OFF"]
+	G [label="LCD: prag + stare"]
+	A -> B [label="" fontsize=9]
+	B -> C [label="" fontsize=9]
+	C -> D [label="" fontsize=9]
+	D -> E [label="x < prag" fontsize=9]
+	D -> F [label="x >= prag" fontsize=9]
+	E -> G [label="" fontsize=9]
+	F -> G [label="" fontsize=9]
+}

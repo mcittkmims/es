@@ -1,6 +1,8 @@
 import { DATA_URL } from "./config.js";
+import { normalizeExamData } from "./data-normalizer.js";
 import { els } from "./dom.js";
 import { findVariant } from "./exam.js";
+import { queueMathTypeset } from "./math.js";
 import { getSearchResults, renderSearchResult } from "./search.js";
 import { renderVariant } from "./render.js";
 
@@ -25,6 +27,7 @@ function renderSearch() {
 
 function showVariant(number, highlightTaskKey = null) {
   renderVariant(els, findVariant(variants, number), highlightTaskKey);
+  queueMathTypeset(els.tasks);
   const currentIndex = variants.findIndex((variant) => variant.variant === Number(els.variantSelect.value));
   els.prevVariant.disabled = currentIndex <= 0;
   els.nextVariant.disabled = currentIndex === -1 || currentIndex >= variants.length - 1;
@@ -111,7 +114,7 @@ async function init() {
     const response = await fetch(DATA_URL);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    variants = await response.json();
+    variants = normalizeExamData(await response.json());
     variants.sort((a, b) => a.variant - b.variant);
 
     els.variantSelect.innerHTML = variants
@@ -128,5 +131,9 @@ async function init() {
     console.error(error);
   }
 }
+
+document.addEventListener("mathjax-ready", () => {
+  queueMathTypeset(els.tasks);
+});
 
 init();

@@ -1,0 +1,20 @@
+digraph v04_electrical_interconnection {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 4 - diagramă conceptuală de interconectare electrică"
+	node [fontsize=10 shape=box]
+	BTN [label="Buton mod
+auto/manual"]
+	MCU [label="MCU
+Timer + FSM"]
+	G [label="LED verde"]
+	Y [label="LED galben"]
+	R [label="LED roșu"]
+	UART [label="UART/USB serial"]
+	P [label=Alimentare]
+	P -> MCU [label="" fontsize=9]
+	BTN -> MCU [label="GPIO input" fontsize=9]
+	MCU -> G [label="GPIO+R" fontsize=9]
+	MCU -> Y [label="GPIO+R" fontsize=9]
+	MCU -> R [label="GPIO+R" fontsize=9]
+	MCU -> UART [label="TX/RX" fontsize=9]
+}

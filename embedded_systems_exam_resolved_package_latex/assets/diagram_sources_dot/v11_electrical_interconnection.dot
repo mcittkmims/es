@@ -1,0 +1,29 @@
+digraph v11_electrical_interconnection {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 11 - diagramă conceptuală de interconectare electrică"
+	node [fontsize=10 shape=box]
+	M2 [label="MCU2
+comenzi RGB"]
+	UART [label="Serial UART
+STX/CMD/DATA/CRC"]
+	M1 [label="MCU1
+PWM RGB"]
+	R [label="Canal R
+rezistor/MOSFET"]
+	G [label="Canal G
+rezistor/MOSFET"]
+	B [label="Canal B
+rezistor/MOSFET"]
+	LED [label="LED RGB"]
+	P [label=Alimentare]
+	P -> M1 [label="" fontsize=9]
+	P -> M2 [label="" fontsize=9]
+	M2 -> UART [label=TX fontsize=9]
+	UART -> M1 [label=RX fontsize=9]
+	M1 -> R [label=PWM fontsize=9]
+	M1 -> G [label=PWM fontsize=9]
+	M1 -> B [label=PWM fontsize=9]
+	R -> LED [label="" fontsize=9]
+	G -> LED [label="" fontsize=9]
+	B -> LED [label="" fontsize=9]
+}

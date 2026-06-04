@@ -6,6 +6,7 @@ export function renderAnswerText(text) {
   const lines = text.split("\n");
   const blocks = [];
   let prose = [];
+  let list = [];
   let code = [];
   let inCode = false;
 
@@ -13,6 +14,12 @@ export function renderAnswerText(text) {
     if (!prose.length) return;
     blocks.push({ type: "prose", text: prose.join("\n").trim() });
     prose = [];
+  }
+
+  function flushList() {
+    if (!list.length) return;
+    blocks.push({ type: "list", items: [...list] });
+    list = [];
   }
 
   function flushCode() {
@@ -25,6 +32,7 @@ export function renderAnswerText(text) {
     const startsCodeBlock = line.trim().toLowerCase().startsWith("cod critic comentat:");
 
     if (startsCodeBlock) {
+      flushList();
       flushProse();
       blocks.push({ type: "prose", text: line.trim() });
       inCode = true;
@@ -32,6 +40,7 @@ export function renderAnswerText(text) {
     }
 
     if (inCode || isCodeLine(line)) {
+      flushList();
       flushProse();
       code.push(line);
       inCode = true;
@@ -43,19 +52,49 @@ export function renderAnswerText(text) {
       return;
     }
 
+    if (!line.trim()) {
+      flushCode();
+      inCode = false;
+      flushList();
+      flushProse();
+      return;
+    }
+
+    if (line.trim().startsWith("- ")) {
+      flushCode();
+      inCode = false;
+      flushProse();
+      list.push(line.trim().slice(2));
+      return;
+    }
+
     flushCode();
     inCode = false;
     prose.push(line);
   });
 
   flushCode();
+  flushList();
   flushProse();
 
   return blocks
-    .filter((block) => block.text)
+    .filter((block) => block.text || block.items?.length)
     .map((block) => {
       if (block.type === "code") {
         return `<pre class="code-block"><code>${highlightCode(block.text)}</code></pre>`;
+      }
+
+      if (block.type === "list") {
+        return `
+          <ul class="answer-list">
+            ${block.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        `;
+      }
+
+      const trimmed = block.text.trim();
+      if (/^\\\(.+\\\)$/.test(trimmed) || /^\\\[.+\\\]$/.test(trimmed)) {
+        return `<div class="answer-formula">${escapeHtml(trimmed)}</div>`;
       }
 
       return `<p class="answer-prose">${escapeHtml(block.text)}</p>`;

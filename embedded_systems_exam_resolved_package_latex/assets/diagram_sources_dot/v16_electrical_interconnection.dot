@@ -1,0 +1,23 @@
+digraph v16_electrical_interconnection {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 16 - diagramă conceptuală de interconectare electrică"
+	node [fontsize=10 shape=box]
+	UART [label="Serial config
+Kp Ki Kd setpoint"]
+	ENC [label="Encoder motor"]
+	MCU [label="MCU
+PID periodic"]
+	DRV [label="Driver PWM
+H-bridge/MOSFET"]
+	M [label="Motor DC"]
+	LCD [label=LCD]
+	P [label=Alimentare]
+	P -> MCU [label="" fontsize=9]
+	P -> DRV [label="" fontsize=9]
+	UART -> MCU [label="TX/RX" fontsize=9]
+	ENC -> MCU [label="interrupt/count" fontsize=9]
+	MCU -> DRV [label="PWM+DIR" fontsize=9]
+	DRV -> M [label=putere fontsize=9]
+	M -> ENC [label="feedback mecanic" fontsize=9]
+	MCU -> LCD [label="I2C/GPIO" fontsize=9]
+}

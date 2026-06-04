@@ -333,6 +333,30 @@ button:disabled {
   white-space: pre-wrap;
 }
 
+.answer-list {
+  display: grid;
+  gap: 8px;
+  line-height: 1.55;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.answer-list li::marker {
+  color: var(--primary);
+}
+
+.answer-formula {
+  background: #fff8ec;
+  border: 1px solid #ead8bc;
+  border-radius: 10px;
+  overflow-x: auto;
+  padding: 12px 14px;
+}
+
+.answer-formula mjx-container {
+  margin: 0 !important;
+}
+
 .answer-block {
   background: #fffdf9;
 }

@@ -1,0 +1,23 @@
+digraph v06_electrical_interconnection {
+	fontsize=16 labelloc=t rankdir=LR
+	label="Variant 6 - diagramă conceptuală de interconectare electrică"
+	node [fontsize=10 shape=box]
+	UART [label="Terminal serial
+config TH_ON/TH_OFF"]
+	FB [label="Senzor feedback
+viteză/temperatură"]
+	MCU [label="MCU
+control histerezis"]
+	DRV [label="Driver motor
+MOSFET/releu"]
+	M [label="Motor DC"]
+	LCD [label=LCD]
+	P [label="Alimentare motor + logică"]
+	P -> MCU [label="" fontsize=9]
+	P -> DRV [label="" fontsize=9]
+	UART -> MCU [label="TX/RX" fontsize=9]
+	FB -> MCU [label="ADC/encoder" fontsize=9]
+	MCU -> DRV [label="GPIO/PWM" fontsize=9]
+	DRV -> M [label=putere fontsize=9]
+	MCU -> LCD [label="I2C/GPIO" fontsize=9]
+}
