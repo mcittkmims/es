@@ -15,14 +15,7 @@ function normalizeAssetPath(path) {
   if (!path) return "";
 
   return path
-    .replace(
-      /^embedded_exam_resolved_assets_sei_style\//,
-      "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/",
-    )
-    .replace(
-      /^embedded_exam_resolved_assets\//,
-      "embedded_systems_exam_resolved_package_latex/assets/",
-    );
+    .replace(/^embedded_exam_resolved_assets_sei_style\//, "images/sei_style/");
 }
 
 function conciseTitle(text) {
