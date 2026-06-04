@@ -132,6 +132,10 @@ label {
   margin-top: 8px;
 }
 
+#searchToggle {
+  display: none;
+}
+
 select,
 input {
   width: 100%;
@@ -622,7 +626,7 @@ code {
   }
 
   .variant-picker {
-    grid-template-columns: 46px 1fr 46px;
+    grid-template-columns: 42px 1fr 42px 58px;
     margin-top: 0;
   }
 
@@ -642,6 +646,13 @@ code {
     font-size: 12px;
   }
 
+  #searchToggle {
+    display: inline-flex;
+    font-size: 12px;
+    justify-content: center;
+    padding-inline: 6px;
+  }
+
   select,
   input,
   button {
@@ -654,7 +665,26 @@ code {
     padding-block: 8px;
   }
 
+  .search-control,
+  .search-meta,
+  .search-results {
+    display: none;
+  }
+
+  body.search-open .search-control,
+  body.search-open .search-results {
+    display: grid;
+  }
+
+  body.search-open .search-meta {
+    display: block;
+  }
+
   .control-group + .control-group {
+    margin-top: 0;
+  }
+
+  body.search-open .control-group + .control-group {
     margin-top: 6px;
   }
 

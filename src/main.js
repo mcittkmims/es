@@ -44,6 +44,16 @@ function hideSearchResultsOnSmallScreens() {
   }
 }
 
+function setSearchOpen(open) {
+  document.body.classList.toggle("search-open", open);
+  els.searchToggle.setAttribute("aria-expanded", String(open));
+  els.searchToggle.textContent = open ? "Close" : "Search";
+
+  if (open) {
+    els.searchInput.focus();
+  }
+}
+
 function wireEvents() {
   els.variantSelect.addEventListener("change", (event) => {
     showVariant(event.target.value);
@@ -58,7 +68,12 @@ function wireEvents() {
   els.clearSearch.addEventListener("click", () => {
     els.searchInput.value = "";
     renderSearch();
+    setSearchOpen(false);
     els.searchInput.focus();
+  });
+
+  els.searchToggle.addEventListener("click", () => {
+    setSearchOpen(!document.body.classList.contains("search-open"));
   });
 
   els.searchResults.addEventListener("click", (event) => {
@@ -66,6 +81,7 @@ function wireEvents() {
     if (!button) return;
 
     showVariant(button.dataset.variant, button.dataset.task);
+    setSearchOpen(false);
   });
 
   els.tasks.addEventListener("click", (event) => {

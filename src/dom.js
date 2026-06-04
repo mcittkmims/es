@@ -6,6 +6,7 @@ export const els = {
   searchInput: document.querySelector("#searchInput"),
   searchMeta: document.querySelector("#searchMeta"),
   searchResults: document.querySelector("#searchResults"),
+  searchToggle: document.querySelector("#searchToggle"),
   taskNav: document.querySelector("#taskNav"),
   tasks: document.querySelector("#tasks"),
   variantSelect: document.querySelector("#variantSelect"),

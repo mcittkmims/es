@@ -22,10 +22,11 @@
             <button id="prevVariant" type="button">Previous</button>
             <select id="variantSelect"></select>
             <button id="nextVariant" type="button">Next</button>
+            <button id="searchToggle" type="button" aria-expanded="false" aria-controls="searchControls">Search</button>
           </div>
         </div>
 
-        <div class="control-group">
+        <div class="control-group search-control" id="searchControls">
           <label class="field-label" for="searchInput">Search questions</label>
           <input id="searchInput" type="search" placeholder="senzori, STDIO, PID" autocomplete="off" aria-describedby="searchMeta">
         </div>
