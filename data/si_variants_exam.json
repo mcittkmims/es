@@ -8,7 +8,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -19,23 +19,23 @@
         "exam_text": "- Interfața utilizator este ansamblul de componente prin care utilizatorul comandă și observă sistemul.\n- Interfață binară: 1 bit intrare/ieșire, exemplu buton/LED; simplă, robustă, folosită pentru start/stop, alarmă, stare.\n- Tablou unidimensional/bidimensional: mai multe elemente binare organizate ca vector sau matrice; exemple: bargraph LED, keypad 4x4, matrice LED/LCD.\n- STDIO abstractizează perifericul de intrare/ieșire: printf/scanf pot lucra cu UART, LCD/keypad sau buton/LED prin funcții putchar/getchar adaptate.\n- Alegerea interfeței depinde de cantitatea de informație: LED pentru stare, keypad pentru comenzi discrete, LCD/terminal pentru text și valori.\n\nClasificare/exemple:\n- Binară: intrare buton/contact; ieșire LED/releu; utilizare comandă și stare simplă.\n- Tablou 1D: intrare șir de butoane; ieșire bargraph LED; utilizare nivel, meniu scurt.\n- Tablou 2D: intrare keypad matrice; ieșire LCD/matrice LED; utilizare meniu, valori numerice.\n- STDIO: intrare scanf/getchar; ieșire printf/putchar; utilizare interfață portabilă peste UART/LCD/keypad.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v01_interaction_classes_p3.png",
+            "path": "images/sei_style/slide_diagrams/v01_interaction_classes_p3.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v01_binary_button_led_p6.png",
+            "path": "images/sei_style/slide_diagrams/v01_binary_button_led_p6.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v01_keypad_binary_array_p7.png",
+            "path": "images/sei_style/slide_diagrams/v01_keypad_binary_array_p7.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v01_stdio_interface_p20.png",
+            "path": "images/sei_style/slide_diagrams/v01_stdio_interface_p20.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v01_stdio_keypad_lcd_p27.png",
+            "path": "images/sei_style/slide_diagrams/v01_stdio_keypad_lcd_p27.png",
             "caption": "Diagramă suport 5"
           }
         ]
@@ -46,11 +46,11 @@
         "exam_text": "- Protocolul folosește delimitatori STX/ETX pentru sincronizare și CRC pentru integritate.\n- LCD-ul este legat la stdout prin funcție putchar.\n\nPseudocod logic comentat:\nPSEUDOCOD - protocol serial temperatură, 2 MCU\n\nMCU1 - emițător:\nla fiecare 100 ms:\n    // citesc senzorul de temperatură\n    valoare_ADC <- citire_senzor_temperatură()\n    temperatura <- conversie_ADC_in_grade(valoare_ADC)\n\n    // formez pachetul logic\n    DATA <- temperatura\n    CRC <- XOR(CMD_TEMP, DATA)\n    pachet <- [STX, CMD_TEMP, DATA, CRC, ETX]\n\n    // trimit pachetul pe UART\n    trimite_serial(pachet)\n\nMCU2 - receptor:\npermanent:\n    // caut începutul cadrului\n    aștept STX\n    citesc CMD, DATA, CRC, ETX\n\n    // verific integritatea cadrului\n    dacă ETX lipsește: resetez recepția\n    dacă CRC != XOR(CMD, DATA): afișez \"ERR\"\n    altfel dacă CMD = TEMP:\n        temperatura <- DATA\n        afișez_pe_LCD(\"T=\", temperatura)\n\nObservație STDIO:\n    putchar caracter -> scriere_LCD(caracter)\n    astfel printf(...) se afișează pe LCD.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v01_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v01_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v01_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v01_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -66,7 +66,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -77,27 +77,27 @@
         "exam_text": "- Senzorul transformă o mărime fizică în informație internă utilizabilă de MCU; transductorul produce semnalul electric măsurabil.\n- Clasificare după interfață: binară (0/1), analogică (tensiune/curent proporțional), digitală (I2C/SPI/1-Wire/UART), temporală (durată/frecvență).\n- Achiziția analogică cere condiționare electrică, eșantionare și conversie ADC; achiziția digitală cere protocol și validarea mesajelor.\n- Condiționarea hardware: divizare, amplificare, saturare, filtrare; condiționarea software: limitare, mediană, mediere ponderată, conversie în unități fizice.\n- Datele se folosesc în control, diagnoză, logare sau transmitere IoT numai după verificare și filtrare.\n\nClasificare/exemple:\n- Interfață: binar, analogic, digital, temporal\n- Sursă: intern/enteroceptiv, extern/exteroceptiv\n- Localizare: local, global\n- Activitate: activ, pasiv",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v02_sensor_definition_p7.png",
+            "path": "images/sei_style/slide_diagrams/v02_sensor_definition_p7.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v02_sensor_binary_interface_p9.png",
+            "path": "images/sei_style/slide_diagrams/v02_sensor_binary_interface_p9.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v02_sensor_analog_interface_p10.png",
+            "path": "images/sei_style/slide_diagrams/v02_sensor_analog_interface_p10.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v02_sensor_digital_interface_p11.png",
+            "path": "images/sei_style/slide_diagrams/v02_sensor_digital_interface_p11.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v02_hw_conditioning_p8.png",
+            "path": "images/sei_style/slide_diagrams/v02_hw_conditioning_p8.png",
             "caption": "Diagramă suport 5"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v02_weighted_average_p14.png",
+            "path": "images/sei_style/slide_diagrams/v02_weighted_average_p14.png",
             "caption": "Diagramă suport 6"
           }
         ]
@@ -108,11 +108,11 @@
         "exam_text": "- Pe I2C se recomandă GND comun și rezistențe pull-up pe SDA/SCL.\n- MCU2 validează CRC înainte de afișare.\n\nPseudocod logic comentat:\nPSEUDOCOD - comunicare I2C umiditate, 2 MCU\n\nMCU1 - master I2C:\nperiodic:\n    // achiziție senzor\n    umiditate <- citește_senzor_umiditate()\n\n    // împachetare logică\n    DATA <- umiditate\n    CRC <- XOR(CMD_HUM, DATA)\n\n    // trimitere spre MCU2\n    pornesc_transmisie_I2C(adresa_MCU2)\n    trimit CMD_HUM, DATA, CRC\n    opresc_transmisie_I2C()\n\nMCU2 - slave I2C:\nla primirea unui mesaj:\n    // citesc câmpurile primite\n    citesc CMD, DATA, CRC\n\n    // verific mesajul\n    dacă CRC = XOR(CMD, DATA) și CMD = HUM:\n        umiditate <- DATA\n        mesaj_nou <- adevărat\n    altfel:\n        eroare <- adevărat\n\nTask LCD:\n    dacă mesaj_nou: afișez \"H=...%\"\n    dacă eroare: afișez \"CRC ERR\"\n\nNotă electrică: SDA și SCL au pull-up, iar cele două MCU-uri au GND comun.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v02_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v02_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v02_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v02_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -128,7 +128,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -139,23 +139,23 @@
         "exam_text": "- Actuatorul transformă semnalul intern de comandă în acțiune fizică asupra sistemului sau mediului.\n- Convertorul de putere adaptează semnalul MCU la energia necesară actuatorului: tranzistor, releu, punte H, driver MOSFET.\n- Actuator binar: ON/OFF, exemplu releu, LED, electrovalvă; comandă simplă prin GPIO.\n- Actuator analogic/timp: comandă proporțională sau PWM pentru motor, LED RGB, încălzire; necesită temporizare și limitări.\n- Planificarea execuției se face prin task periodic, FSM sau control cu feedback; se evită blocarea prin delay lung în bucla principală.\n\nClasificare/exemple:\n- Interfață: binară, analogică, digitală, bazată pe timp/PWM\n- Ținta acțiunii: internă asupra sistemului, externă asupra mediului\n- Localizare: local, global\n- Feedback: open-loop, closed-loop",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v03_actuator_definition_p4.png",
+            "path": "images/sei_style/slide_diagrams/v03_actuator_definition_p4.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v03_actuator_binary_p7.png",
+            "path": "images/sei_style/slide_diagrams/v03_actuator_binary_p7.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v03_actuator_analog_p8.png",
+            "path": "images/sei_style/slide_diagrams/v03_actuator_analog_p8.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v03_actuator_time_based_p10.png",
+            "path": "images/sei_style/slide_diagrams/v03_actuator_time_based_p10.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v03_actuator_feedback_p13.png",
+            "path": "images/sei_style/slide_diagrams/v03_actuator_feedback_p13.png",
             "caption": "Diagramă suport 5"
           }
         ]
@@ -166,11 +166,11 @@
         "exam_text": "- Releul nu se conectează direct la pinul MCU; se folosește tranzistor și diodă flyback.\n- Potentiometrul oferă pragul, iar LCD raportează pragul și starea.\n\nPseudocod logic comentat:\nPSEUDOCOD - releu controlat On/Off după prag\n\nInițial:\n    releu <- OFF\n\nBucla principală:\n    // citesc pragul din potențiometru\n    adc_pot <- citește_ADC(potențiometru)\n    prag <- conversie_ADC_in_prag(adc_pot)\n\n    // citesc mărimea controlată sau comanda de stare\n    valoare <- citește_intrare_control()\n\n    // decizie On/Off simplă\n    dacă valoare > prag:\n        releu <- ON\n    altfel:\n        releu <- OFF\n\n    // comandă electrică prin driver, nu direct din MCU\n    scrie_pin_driver_releu(releu)\n\n    // raportare locală\n    afișez_LCD(\"Prag=\", prag)\n    afișez_LCD(\"Releu=\", releu)\n\nProtecție electrică:\n    pin MCU -> rezistor -> tranzistor -> bobină releu;\n    diodă flyback paralel pe bobina releului.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v03_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v03_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v03_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v03_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -186,7 +186,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -197,23 +197,23 @@
         "exam_text": "- Un sistem secvențial execută taskuri în aceeași buclă principală, într-o ordine stabilită, fără întrerupere preemptivă între taskuri.\n- Fiecare task are recurență (perioadă) și offset; exemplu: achiziție la 10 ms, control la 20 ms, raportare la 100 ms.\n- Se evită delay() blocant; se folosește millis()/timer flag pentru a porni taskul doar când i-a venit timpul.\n- Ordinea tipică: citire intrări -> filtrare/diagnoză -> control/FSM -> acționare -> raportare.\n- Avantaj: simplitate și predictibilitate; limitare: un task lung întârzie toate celelalte taskuri.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v04_multitasking_problem_p4.png",
+            "path": "images/sei_style/slide_diagrams/v04_multitasking_problem_p4.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v04_event_interrupt_p7.png",
+            "path": "images/sei_style/slide_diagrams/v04_event_interrupt_p7.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v04_timer_isr_p8.png",
+            "path": "images/sei_style/slide_diagrams/v04_timer_isr_p8.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v04_task_recurrence_order_p9.png",
+            "path": "images/sei_style/slide_diagrams/v04_task_recurrence_order_p9.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v04_task_distribution_p11.png",
+            "path": "images/sei_style/slide_diagrams/v04_task_distribution_p11.png",
             "caption": "Diagramă suport 5"
           }
         ]
@@ -224,11 +224,11 @@
         "exam_text": "- FSM Moore: LED-urile depind de starea curentă.\n- Modul automat folosește timer; modul manual folosește buton.\n\nTabel de stări/parametri:\nstate | output | next_auto\n--- | --- | ---\nGREEN | LED verde ON | YELLOW după 5 s\nYELLOW | LED galben ON | RED după 1 s\nRED | LED roșu ON | GREEN după 5 s\n\nPseudocod logic comentat:\nPSEUDOCOD - semafor cu automat finit\n\nStări FSM:\n    GREEN  -> LED verde ON\n    YELLOW -> LED galben ON\n    RED    -> LED roșu ON\n\nInițial:\n    stare <- GREEN\n    timp_start <- timp_curent()\n\nBucla principală:\n    // ieșirea depinde numai de stare: FSM Moore\n    dacă stare = GREEN:  aprind verde, sting restul\n    dacă stare = YELLOW: aprind galben, sting restul\n    dacă stare = RED:    aprind roșu, sting restul\n\n    // tranziții automate după timer\n    dacă mod = AUTO:\n        dacă stare = GREEN și au trecut 5 s: stare <- YELLOW\n        dacă stare = YELLOW și au trecut 1 s: stare <- RED\n        dacă stare = RED și au trecut 5 s: stare <- GREEN\n\n    // tranziție manuală la apăsare buton\n    dacă buton_apăsat:\n        stare <- următoarea_stare(stare)\n        resetez timerul\n\n    afișez starea curentă pe serial/LCD.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v04_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v04_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v04_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v04_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -244,7 +244,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -255,23 +255,23 @@
         "exam_text": "- Comunicarea este schimbul de informație între interlocutori; are mesaj, emițător, canal, receptor, codare, decodare, feedback și zgomot.\n- Protocolul fizic/hardware definește semnalele electrice și sincronizarea: UART/USART, I2C, SPI, CAN etc.\n- Protocolul logic/software definește structura mesajului: STX, ETX, adresă, comandă, payload, CRC/sumă de control.\n- UART este simplu punct-la-punct; I2C permite magistrală cu adrese; SPI este rapid, cu linii separate și semnal chip-select.\n- Un protocol bun conține delimitatori, lungime, comandă, date, verificare și reacție la eroare.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v05_hw_sw_protocol_p6.png",
+            "path": "images/sei_style/slide_diagrams/v05_hw_sw_protocol_p6.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v05_spi_hw_protocol_p8.png",
+            "path": "images/sei_style/slide_diagrams/v05_spi_hw_protocol_p8.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v05_i2c_hw_protocol_p12.png",
+            "path": "images/sei_style/slide_diagrams/v05_i2c_hw_protocol_p12.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v05_usart_hw_protocol_p16.png",
+            "path": "images/sei_style/slide_diagrams/v05_usart_hw_protocol_p16.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v05_usart_sw_protocol_p18.png",
+            "path": "images/sei_style/slide_diagrams/v05_usart_sw_protocol_p18.png",
             "caption": "Diagramă suport 5"
           }
         ]
@@ -282,11 +282,11 @@
         "exam_text": "- Soluția este identică în principiu cu varianta 1, cu accent pe separarea protocolului fizic UART de protocolul logic STX/CRC.\n- La eroare se resetează parserul.\n\nPseudocod logic comentat:\nPSEUDOCOD - protocol serial temperatură, accent pe HW/SW protocol\n\nEmițător MCU1:\nperiodic:\n    temperatura <- citește_senzor_temperatură()\n\n    // protocol logic peste protocol fizic UART\n    payload <- temperatura\n    CRC <- XOR(CMD_TEMP, payload)\n    cadru <- [STX, CMD_TEMP, payload, CRC, ETX]\n\n    trimite_UART(cadru)\n\nReceptor MCU2:\npermanent:\n    // parser simplu de pachete\n    ignor octeții până la STX\n    citesc câmpurile până la ETX\n\n    dacă lipsește ETX:\n        resetez parserul\n    altfel dacă CRC greșit:\n        afișez_LCD(\"CRC ERR\")\n    altfel:\n        extrag temperatura din payload\n        afișez_LCD(\"T=\", temperatura)\n\nConcluzie:\n    UART = protocol fizic; STX/CMD/DATA/CRC/ETX = protocol logic.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v05_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v05_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v05_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v05_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -302,7 +302,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -313,15 +313,15 @@
         "exam_text": "- Controlul On/Off comută actuatorul între două stări în funcție de eroarea față de prag.\n- Fără histerezis, dacă valoarea măsurată oscilează în jurul pragului, actuatorul comută des.\n- Histerezisul introduce două praguri: PORNIRE sub pragul inferior și OPRIRE peste pragul superior.\n- Avantaj: comutări rare, protecție mecanică/electrică; limitare: precizie mai mică decât PID.\n- Aplicații: termostat, ventilator, pompă, motor ON/OFF, protecție de temperatură.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v06_control_types_p2.png",
+            "path": "images/sei_style/slide_diagrams/v06_control_types_p2.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v06_on_off_control_p4.png",
+            "path": "images/sei_style/slide_diagrams/v06_on_off_control_p4.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v06_on_off_hysteresis_p5.png",
+            "path": "images/sei_style/slide_diagrams/v06_on_off_hysteresis_p5.png",
             "caption": "Diagramă suport 3"
           }
         ]
@@ -332,11 +332,11 @@
         "exam_text": "- Histerezisul impune \\(TH_{ON} < TH_{OFF}\\).\n- Pragurile se pot modifica din terminal fără recompilare.\n\nPseudocod logic comentat:\nPSEUDOCOD - motor DC On/Off cu histerezis\n\nDate:\n    prag_pornire = TH_ON\n    prag_oprire  = TH_OFF\n    condiție: \\(TH_{ON} < TH_{OFF}\\)\n    stare_motor <- OFF\n\nBucla principală:\n    // utilizatorul poate modifica pragurile din serial\n    dacă există comandă serială:\n        citesc TH_ON și TH_OFF\n\n    // citesc valoarea controlată, de exemplu viteză sau temperatură\n    valoare <- citește_senzor()\n\n    // lege On/Off cu histerezis\n    dacă stare_motor = OFF și valoare < TH_ON:\n        stare_motor <- ON\n    dacă stare_motor = ON și valoare > TH_OFF:\n        stare_motor <- OFF\n\n    // comand motorul prin driver de putere\n    scrie_driver_motor(stare_motor)\n\n    // raportare\n    afișez_LCD(\"M=\", stare_motor)\n    afișez_LCD(\"Val=\", valoare)\n\nRolul histerezisului:\n    evită comutările dese când valoarea oscilează în jurul unui singur prag.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v06_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v06_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v06_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v06_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -352,7 +352,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -363,19 +363,19 @@
         "exam_text": "- FSM este un model cu număr finit de stări, intrări, ieșiri și funcții de tranziție.\n- Starea memorează trecutul relevant al sistemului; tranziția apare când o condiție devine adevărată.\n- Moore: ieșirea depinde doar de starea curentă; Mealy: ieșirea depinde de stare și intrări.\n- Proiectarea pe hârtie: se definește lista stărilor, intrările, ieșirile, tabelul de tranziții și diagrama de stări.\n- În IoT este util pentru uși, alarme, semafoare, secvențe de pornire, protecții și comunicare cu retry.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v07_fsm_definition_p2.png",
+            "path": "images/sei_style/slide_diagrams/v07_fsm_definition_p2.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v07_fsm_diagram_concepts_p3.png",
+            "path": "images/sei_style/slide_diagrams/v07_fsm_diagram_concepts_p3.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v07_fsm_evaluation_task_p5.png",
+            "path": "images/sei_style/slide_diagrams/v07_fsm_evaluation_task_p5.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v07_fsm_button_led_design_p6.png",
+            "path": "images/sei_style/slide_diagrams/v07_fsm_button_led_design_p6.png",
             "caption": "Diagramă suport 4"
           }
         ]
@@ -386,11 +386,11 @@
         "exam_text": "- FSM-ul are stare inițială STANDBY.\n- Raportarea pe serial este ieșirea principală.\n\nTabel de stări/parametri:\nstate | event | next | output\n--- | --- | --- | ---\nSTANDBY | buton | DOOR_CLOSED | Serial STANDBY\nDOOR_CLOSED | buton/contact open | DOOR_OPEN | Serial USA INCHISA\nDOOR_OPEN | buton/contact closed | DOOR_CLOSED | Serial USA DESCHISA\n\nPseudocod logic comentat:\nPSEUDOCOD - FSM pentru sistem securitate ușă\n\nStări:\n    STANDBY\n    DOOR_CLOSED\n    DOOR_OPEN\n\nInițial:\n    stare <- STANDBY\n\nBucla principală:\n    // citesc intrările\n    buton <- citește_buton()\n    contact_ușă <- citește_contact_ușă()\n\n    // tranziții FSM\n    dacă stare = STANDBY și buton apăsat:\n        stare <- DOOR_CLOSED\n\n    dacă stare = DOOR_CLOSED și contact_ușă = deschis:\n        stare <- DOOR_OPEN\n\n    dacă stare = DOOR_OPEN și contact_ușă = închis:\n        stare <- DOOR_CLOSED\n\n    // ieșiri / raportare\n    dacă stare = STANDBY:      trimite_serial(\"STANDBY\")\n    dacă stare = DOOR_CLOSED:  trimite_serial(\"USA INCHISA\")\n    dacă stare = DOOR_OPEN:    trimite_serial(\"USA DESCHISA\")\n\nObservație:\n    starea memorează situația sistemului; intrările produc tranzițiile.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v07_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v07_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v07_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v07_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -406,7 +406,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -417,27 +417,27 @@
         "exam_text": "- Diagnoza identifică natura și cauza unui comportament anormal prin observarea simptomelor.\n- Metode: prag (over/under), domeniu valid, plauzibilitate între senzori, stall-in-range.\n- Un simptom nu devine eroare imediat; se califică prin filtru temporal/counter anti-bounce.\n- Reacții: notificare, inhibiție, limitare, derating, lockout, oprire sigură.\n- Protecția aplică reacția pentru a evita deteriorarea sistemului sau pericolul pentru mediu/utilizator.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v08_threshold_symptom_p5.png",
+            "path": "images/sei_style/slide_diagrams/v08_threshold_symptom_p5.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v08_range_symptom_p6.png",
+            "path": "images/sei_style/slide_diagrams/v08_range_symptom_p6.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v08_plausibility_symptom_p7.png",
+            "path": "images/sei_style/slide_diagrams/v08_plausibility_symptom_p7.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v08_diagnosis_qualification_p9.png",
+            "path": "images/sei_style/slide_diagrams/v08_diagnosis_qualification_p9.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v08_derating_protection_p13.png",
+            "path": "images/sei_style/slide_diagrams/v08_derating_protection_p13.png",
             "caption": "Diagramă suport 5"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v08_sensor_actuator_diagnosis_protection_p17.png",
+            "path": "images/sei_style/slide_diagrams/v08_sensor_actuator_diagnosis_protection_p17.png",
             "caption": "Diagramă suport 6"
           }
         ]
@@ -448,11 +448,11 @@
         "exam_text": "- Temperatura peste prag produce simptom, dar motorul se oprește doar după calificare temporală.\n- Resetarea protecției se face cu histerezis.\n\nPseudocod logic comentat:\nPSEUDOCOD - diagnoză temperatură motor și protecție\n\nDate:\n    prag_critic <- temperatură maximă permisă\n    contor_eroare <- 0\n    motor <- ON\n\nBucla principală:\n    // achiziție temperatură\n    temperatura <- citește_senzor_temperatură_motor()\n\n    // detecție simptom de prag\n    dacă temperatura > prag_critic:\n        simptom_overtemp <- adevărat\n    altfel:\n        simptom_overtemp <- fals\n\n    // calificare: eroarea trebuie să persiste\n    dacă simptom_overtemp:\n        contor_eroare <- contor_eroare + 1\n    altfel:\n        contor_eroare <- 0\n\n    // reacție de protecție\n    dacă contor_eroare >= limită_calificare:\n        motor <- OFF\n        stare <- \"PROTECTIE\"\n    altfel:\n        stare <- \"OK\"\n\n    comand_motor(motor)\n    trimite_serial(stare, temperatura)\n\nResetare:\n    motorul poate reporni doar după răcire sub prag sigur și reset/confirmare.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v08_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v08_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v08_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v08_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -468,7 +468,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -479,19 +479,19 @@
         "exam_text": "- STDIO oferă funcții standard de intrare/ieșire: printf(), scanf(), getchar(), putchar().\n- În embedded, aceste funcții sunt redirecționate spre periferice: UART, LCD, keypad, LED sau buton.\n- Avantaj: codul aplicației nu depinde de dispozitivul fizic; schimbarea terminalului cu LCD se face în driverul putchar/getchar.\n- Pentru UART: putchar trimite un byte pe TX, getchar așteaptă byte pe RX.\n- Pentru LCD/keypad: putchar afișează caracterul pe LCD, getchar returnează tasta apăsată.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v09_stdio_interface_p20.png",
+            "path": "images/sei_style/slide_diagrams/v09_stdio_interface_p20.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v09_stdio_uart_p21.png",
+            "path": "images/sei_style/slide_diagrams/v09_stdio_uart_p21.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v09_serial_terminal_p22.png",
+            "path": "images/sei_style/slide_diagrams/v09_serial_terminal_p22.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v09_stdio_keypad_lcd_p27.png",
+            "path": "images/sei_style/slide_diagrams/v09_stdio_keypad_lcd_p27.png",
             "caption": "Diagramă suport 4"
           }
         ]
@@ -502,11 +502,11 @@
         "exam_text": "- Lumina este achiziționată pe MCU1 și transmisă ca payload numeric.\n- LCD se actualizează doar după CRC valid.\n\nPseudocod logic comentat:\nPSEUDOCOD - senzor lumină trimis serial și afișat LCD\n\nMCU1:\nperiodic:\n    // citesc lumină analogic/digital\n    lumina <- citește_senzor_lumină()\n\n    // formez mesajul\n    DATA <- lumina\n    CRC <- XOR(CMD_LIGHT, DATA)\n    pachet <- [STX, CMD_LIGHT, DATA, CRC, ETX]\n\n    // transmit\n    trimite_UART(pachet)\n\nMCU2:\npermanent:\n    // primesc cadrul\n    aștept STX\n    citesc CMD, DATA, CRC, ETX\n\n    // accept doar cadre valide\n    dacă CRC corect și CMD = LIGHT și ETX corect:\n        lumina <- DATA\n        printf_LCD(\"L=\", lumina)\n    altfel:\n        printf_LCD(\"ERR\")\n\nSTDIO:\n    printf_LCD se obține prin redirecționarea lui putchar către LCD.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v09_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v09_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v09_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v09_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -522,7 +522,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -533,27 +533,27 @@
         "exam_text": "- Semnalul este evoluția în timp a informației; înainte de control trebuie filtrat, limitat și convertit în unități fizice.\n- Condiționarea hardware adaptează nivelul electric la MCU: divizor, amplificator, filtru RC, protecție la supratensiune.\n- Condiționarea software elimină zgomotul: mediere ponderată, mediană, limitare min/max, conversie liniară.\n- Filtrul de mediere ponderată: \\(y[k] = \\alpha x[k] + (1-\\alpha)y[k-1],\\; 0 < \\alpha < 1\\).\n- Filtrarea crește stabilitatea, dar introduce întârziere; coeficientul se alege în funcție de dinamica semnalului.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v10_hw_conditioning_p8.png",
+            "path": "images/sei_style/slide_diagrams/v10_hw_conditioning_p8.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v10_hw_filtering_p9.png",
+            "path": "images/sei_style/slide_diagrams/v10_hw_filtering_p9.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v10_sw_saturate_p12.png",
+            "path": "images/sei_style/slide_diagrams/v10_sw_saturate_p12.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v10_median_filter_p13.png",
+            "path": "images/sei_style/slide_diagrams/v10_median_filter_p13.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v10_weighted_average_p14.png",
+            "path": "images/sei_style/slide_diagrams/v10_weighted_average_p14.png",
             "caption": "Diagramă suport 5"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v10_linear_conversion_p15.png",
+            "path": "images/sei_style/slide_diagrams/v10_linear_conversion_p15.png",
             "caption": "Diagramă suport 6"
           }
         ]
@@ -564,11 +564,11 @@
         "exam_text": "- Medierea ponderată reduce zgomotul vibrației.\n- Coeficientul alpha mare reacționează rapid, alpha mic filtrează mai puternic.\n\nPseudocod logic comentat:\nPSEUDOCOD - vibrații cu mediere ponderată și transmitere serială\n\nFormula filtrului:\n    \\(y[k] = \\alpha x[k] + (1-\\alpha)y[k-1]\\)\n\nInițial:\n    valoare_filtrată <- 0\n    alpha <- coeficient între 0 și 1\n\nBucla principală:\n    // achiziție semnal brut\n    x <- citește_senzor_vibrații()\n\n    // filtrare software\n    valoare_filtrată <- alpha * x + (1 - alpha) * valoare_filtrată\n\n    // limitare la domeniul valid\n    dacă valoare_filtrată < MIN: valoare_filtrată <- MIN\n    dacă valoare_filtrată > MAX: valoare_filtrată <- MAX\n\n    // transmitere rezultat procesat\n    CRC <- XOR(CMD_VIB, valoare_filtrată)\n    trimite_UART(STX, CMD_VIB, valoare_filtrată, CRC, ETX)\n\n    // raportare opțională\n    afișez_serial(\"Vib filtrat=\", valoare_filtrată)\n\nObservație:\n    filtrul scade zgomotul; alpha mare = răspuns rapid, alpha mic = filtrare puternică.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v10_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v10_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v10_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v10_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -584,7 +584,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -595,23 +595,23 @@
         "exam_text": "- Actuatorul se conectează la MCU prin driver de putere, deoarece pinul MCU nu poate alimenta direct sarcini mari.\n- Actuator binar: comandă GPIO ON/OFF prin tranzistor/releu; exemplu pompă, releu, solenoid.\n- Actuator analogic/timp: PWM controlează energia medie aplicată; exemplu LED RGB, motor DC, încălzitor.\n- Pentru PWM se definesc frecvența și duty-cycle; duty mai mare înseamnă intensitate/viteză/putere mai mare.\n- Se adaugă protecții: rezistențe pentru LED, diodă flyback pentru releu/motor, limitare duty și diagnoză.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v11_actuator_binary_p7.png",
+            "path": "images/sei_style/slide_diagrams/v11_actuator_binary_p7.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v11_actuator_analog_p8.png",
+            "path": "images/sei_style/slide_diagrams/v11_actuator_analog_p8.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v11_actuator_time_based_p10.png",
+            "path": "images/sei_style/slide_diagrams/v11_actuator_time_based_p10.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v11_pwm_generation_p15.png",
+            "path": "images/sei_style/slide_diagrams/v11_pwm_generation_p15.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v11_signal_generation_p17.png",
+            "path": "images/sei_style/slide_diagrams/v11_signal_generation_p17.png",
             "caption": "Diagramă suport 5"
           }
         ]
@@ -622,11 +622,11 @@
         "exam_text": "- PWM se aplică independent pe canalele R, G, B.\n- Pachetele invalide nu modifică duty-cycle-ul curent.\n\nPseudocod logic comentat:\nPSEUDOCOD - control LED RGB prin PWM și protocol serial\n\nMCU comandă:\nla schimbarea culorii dorite:\n    // valori de intensitate pe 3 canale\n    R, G, B <- valorile dorite de utilizator\n\n    // pachet logic\n    DATA <- [R, G, B]\n    CRC <- XOR(CMD_RGB, R, G, B)\n    trimite_UART(STX, CMD_RGB, DATA, CRC, ETX)\n\nMCU cu LED RGB:\npermanent:\n    // recepție comandă\n    aștept STX\n    citesc CMD, R, G, B, CRC, ETX\n\n    dacă pachet invalid:\n        păstrez culoarea veche\n        afișez_LCD(\"RGB ERR\")\n    altfel dacă CMD = RGB:\n        // conversie intensitate în duty-cycle PWM\n        PWM_R <- R\n        PWM_G <- G\n        PWM_B <- B\n\n        aplic_PWM(canal_R, PWM_R)\n        aplic_PWM(canal_G, PWM_G)\n        aplic_PWM(canal_B, PWM_B)\n        afișez_LCD(\"RGB OK\")\n\nNotă:\n    fiecare culoare are rezistor/driver; PWM modifică energia medie a LED-ului.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v11_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v11_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v11_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v11_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -642,7 +642,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -653,27 +653,27 @@
         "exam_text": "- În sistemul secvențial, un singur fir de execuție apelează taskurile planificate pe timp/eveniment.\n- În sistemul preemptiv, schedulerul poate întrerupe taskul curent și comuta contextul spre alt task mai prioritar.\n- RTOS gestionează timp de procesare, stive, priorități, întârzieri, cozi, semafoare și sincronizare.\n- FreeRTOS permite taskuri concurente: achiziție, afișare, comunicare, control.\n- Avantaj RTOS: modularitate și reacție rapidă; cost: memorie suplimentară, configurare și risc de concurență.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v12_event_interrupt_p7.png",
+            "path": "images/sei_style/slide_diagrams/v12_event_interrupt_p7.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v12_task_recurrence_order_p9.png",
+            "path": "images/sei_style/slide_diagrams/v12_task_recurrence_order_p9.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v12_context_switch_p8.png",
+            "path": "images/sei_style/slide_diagrams/v12_context_switch_p8.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v12_preemptive_vs_non_p9.png",
+            "path": "images/sei_style/slide_diagrams/v12_preemptive_vs_non_p9.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v12_freertos_state_flow_p12.png",
+            "path": "images/sei_style/slide_diagrams/v12_freertos_state_flow_p12.png",
             "caption": "Diagramă suport 5"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v12_freertos_queue_p16.png",
+            "path": "images/sei_style/slide_diagrams/v12_freertos_queue_p16.png",
             "caption": "Diagramă suport 6"
           }
         ]
@@ -684,11 +684,11 @@
         "exam_text": "- FreeRTOS separă achiziția, LCD și raportarea serială în taskuri independente.\n- Queue-ul elimină accesul nesincronizat la date.\n\nPseudocod logic comentat:\nPSEUDOCOD - FreeRTOS cu 3 taskuri și coadă\n\nResurse:\n    coadă_valori_senzor\n    variabilă_stare_sistem\n\nTask Achiziție:\nrepetă periodic:\n    // citește senzorul\n    valoare <- citește_senzor()\n\n    // trimite valoarea spre celelalte taskuri\n    pune_in_coadă(coadă_valori_senzor, valoare)\n    așteaptă perioada de achiziție\n\nTask LCD:\nrepetă permanent:\n    // așteaptă valoare nouă\n    dacă există valoare în coadă:\n        afișează_LCD(\"Val=\", valoare)\n\nTask Serial:\nrepetă periodic:\n    // raportează starea sistemului\n    trimite_serial(\"Stare=\", variabilă_stare_sistem)\n    așteaptă perioada de raportare\n\nObservație RTOS:\n    schedulerul comută taskurile; coada sincronizează datele și evită accesul nesigur.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v12_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v12_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v12_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v12_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -704,7 +704,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -715,23 +715,23 @@
         "exam_text": "- Protocoalele interne conectează MCU-uri, senzori, actuatoare și display-uri în același dispozitiv IoT.\n- I2C: magistrală cu SDA/SCL, rezistențe pull-up, adresare, potrivit pentru senzori și LCD-uri.\n- SPI: MOSI/MISO/SCK/CS, rapid și full-duplex, potrivit pentru display-uri, memorii, ADC-uri rapide.\n- UART: TX/RX asincron, simplu punct-la-punct sau terminal serial; necesită baudrate comun.\n- Alegerea depinde de viteză, număr de fire, distanță, număr de dispozitive și complexitatea software.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v14_hw_protocol_spi_i2c_p4.png",
+            "path": "images/sei_style/slide_diagrams/v14_hw_protocol_spi_i2c_p4.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v14_spi_hw_protocol_p8.png",
+            "path": "images/sei_style/slide_diagrams/v14_spi_hw_protocol_p8.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v14_i2c_hw_protocol_p12.png",
+            "path": "images/sei_style/slide_diagrams/v14_i2c_hw_protocol_p12.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v14_usart_hw_protocol_p16.png",
+            "path": "images/sei_style/slide_diagrams/v14_usart_hw_protocol_p16.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v14_usart_sw_protocol_p18.png",
+            "path": "images/sei_style/slide_diagrams/v14_usart_sw_protocol_p18.png",
             "caption": "Diagramă suport 5"
           }
         ]
@@ -742,11 +742,11 @@
         "exam_text": "- I2C transmite CMD+DATA+CRC; liniile SDA/SCL necesită pull-up.\n- MCU2 afișează datele doar după verificare.\n\nPseudocod logic comentat:\nPSEUDOCOD - I2C temperatură spre LCD\n\nMCU1 - master:\nperiodic:\n    // achiziție temperatură\n    temperatura <- citește_senzor_temperatură()\n\n    // pregătire mesaj I2C\n    DATA <- temperatura\n    CRC <- XOR(CMD_TEMP, DATA)\n\n    // transmitere pe magistrala I2C\n    start_I2C(adresa_MCU2)\n    scrie_I2C(CMD_TEMP)\n    scrie_I2C(DATA)\n    scrie_I2C(CRC)\n    stop_I2C()\n\nMCU2 - slave:\nla eveniment recepție I2C:\n    citesc CMD, DATA, CRC\n\n    dacă CRC corect și CMD = TEMP:\n        temperatura <- DATA\n        date_valide <- adevărat\n    altfel:\n        date_valide <- fals\n\nTask LCD:\n    dacă date_valide: afișez \"T=...C\"\n    altfel: afișez \"I2C ERR\"\n\nNotă electrică:\n    SDA/SCL au rezistențe pull-up, iar GND este comun.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v14_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v14_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v14_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v14_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -762,7 +762,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -773,23 +773,23 @@
         "exam_text": "- În comunicare, eroarea se detectează prin delimitare incorectă, lungime greșită, comandă necunoscută, timeout sau CRC invalid.\n- CRC/suma de control se calculează la emițător pe câmpurile utile și se verifică la receptor.\n- Simptomul de eroare se califică prin numărare: o eroare izolată se ignoră, erorile repetate devin diagnostic valid.\n- Reacții: afișare ERR pe LCD, retransmitere, resetare parser, trecere în stare sigură, logare.\n- Protocol minim: STX, CMD, LEN, DATA, CRC, ETX; receptorul folosește FSM pentru parsare.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v15_threshold_symptom_p5.png",
+            "path": "images/sei_style/slide_diagrams/v15_threshold_symptom_p5.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v15_diagnosis_qualification_p9.png",
+            "path": "images/sei_style/slide_diagrams/v15_diagnosis_qualification_p9.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v15_reaction_qualified_p10.png",
+            "path": "images/sei_style/slide_diagrams/v15_reaction_qualified_p10.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v15_usart_sw_protocol_p18.png",
+            "path": "images/sei_style/slide_diagrams/v15_usart_sw_protocol_p18.png",
             "caption": "Diagramă suport 4"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v15_usart_solution_example_p5.png",
+            "path": "images/sei_style/slide_diagrams/v15_usart_solution_example_p5.png",
             "caption": "Diagramă suport 5"
           }
         ]
@@ -800,11 +800,11 @@
         "exam_text": "- Eroarea de CRC este diagnosticată prin counter, nu printr-o singură apariție.\n- Starea OK/ERR este afișată pe LCD.\n\nPseudocod logic comentat:\nPSEUDOCOD - diagnoză erori comunicație serială cu CRC\n\nEmițător MCU1:\nperiodic:\n    DATA <- valoare_de_transmis\n    CRC <- XOR(CMD_DATA, DATA)\n    trimite_UART(STX, CMD_DATA, DATA, CRC, ETX)\n\nReceptor MCU2:\nInițial:\n    contor_crc_greșit <- 0\n    diagnostic <- OK\n\npermanent:\n    // recepție cadru\n    aștept STX\n    citesc CMD, DATA, CRC, ETX\n\n    // detecție simptom\n    dacă ETX greșit sau CRC greșit:\n        simptom_eroare <- adevărat\n    altfel:\n        simptom_eroare <- fals\n\n    // calificare diagnoză\n    dacă simptom_eroare:\n        contor_crc_greșit <- contor_crc_greșit + 1\n    altfel:\n        contor_crc_greșit <- 0\n\n    dacă contor_crc_greșit >= 3:\n        diagnostic <- EROARE_COM\n    altfel:\n        diagnostic <- OK\n\n    // reacție și raportare\n    dacă diagnostic = OK: afișez_LCD(\"COM OK\")\n    dacă diagnostic = EROARE_COM: afișez_LCD(\"COM ERR\")\n\nIdee:\n    o eroare izolată nu oprește sistemul; erorile repetate se califică drept diagnostic.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v15_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v15_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v15_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v15_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
@@ -820,7 +820,7 @@
         "exam_text": "Def.: dispozitiv IoT = sistem încorporat care măsoară mediul, procesează local, poate acționa fizic și comunică prin rețea/cloud.\n\nComponente:\n- SNS: senzori; transformă mărimi fizice în semnale interne.\n- ACT: actuatoare; transformă comanda software în acțiune fizică.\n- Application + Platform + OS: logica aplicației, drivere, taskuri, control.\n- COM: comunicare locală/IoT: UART, I2C, SPI, MQTT, cloud.\n- DB: memorare configurații, loguri, calibrări, diagnoze.\n- UI: buton, LED, keypad, LCD, terminal; comandă și raportare locală.\n- POW: alimentare, conversie tensiuni, protecții.\n- PHY: mediul fizic măsurat sau controlat.\n\nFlux: PHY -> SNS -> achiziție/condiționare -> aplicație/control -> ACT -> PHY; paralel există UI, DB, COM și POW.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task1_generic_iot_architecture.png",
+            "path": "images/sei_style/task1_generic_iot_architecture.png",
             "caption": "Diagramă pentru task 1"
           }
         ]
@@ -831,19 +831,19 @@
         "exam_text": "- PID controlează o mărime prin eroarea dintre valoarea dorită și valoarea măsurată: \\(e[k] = r[k] - y[k]\\).\n- Componenta P reacționează proporțional cu eroarea curentă; I elimină eroarea staționară; D anticipează variația erorii.\n- Implementarea discretă calculează periodic termenii P, I, D și limitează ieșirea la domeniul actuatorului.\n- Pentru motor DC, intrarea este viteza dorită, feedbackul vine de la encoder, ieșirea este duty-cycle PWM.\n- Sunt necesare saturare, anti-windup pentru integrală și perioadă de eșantionare constantă.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v16_pid_proportional_p6.png",
+            "path": "images/sei_style/slide_diagrams/v16_pid_proportional_p6.png",
             "caption": "Diagramă suport 1"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v16_pid_equation_p7.png",
+            "path": "images/sei_style/slide_diagrams/v16_pid_equation_p7.png",
             "caption": "Diagramă suport 2"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v16_pid_tuning_p8.png",
+            "path": "images/sei_style/slide_diagrams/v16_pid_tuning_p8.png",
             "caption": "Diagramă suport 3"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/slide_diagrams/v16_control_example_2wd_p10.png",
+            "path": "images/sei_style/slide_diagrams/v16_control_example_2wd_p10.png",
             "caption": "Diagramă suport 4"
           }
         ]
@@ -854,11 +854,11 @@
         "exam_text": "- PID rulează periodic cu dt aproape constant.\n- Anti-windup și saturarea PWM sunt critice pentru motor.\n\nPseudocod logic comentat:\nPSEUDOCOD - control PID viteză motor DC\n\nFormule:\n    \\(e[k] = r[k] - y[k]\\)\n    \\(u[k] = K_P e[k] + K_I \\sum e[k]\\Delta t + K_D \\frac{e[k]-e[k-1]}{\\Delta t}\\)\n\nInițial:\n    Kp, Ki, Kd <- valori implicite\n    referință_viteză <- setată de utilizator\n    integrală <- 0\n    eroare_veche <- 0\n\nBucla principală, la fiecare \\(\\Delta t\\):\n    // configurare din serial\n    dacă există comandă serială:\n        citesc Kp, Ki, Kd, referință_viteză\n\n    // feedback de la encoder\n    viteză <- calculează_RPM_din_encoder()\n\n    // calcul PID discret\n    eroare <- referință_viteză - viteză\n    integrală <- integrală + eroare * Delta_t\n    derivată <- (eroare - eroare_veche) / Delta_t\n    comandă <- Kp*eroare + Ki*integrală + Kd*derivată\n    eroare_veche <- eroare\n\n    // limitare ieșire și protecție anti-windup\n    dacă comandă < 0: comandă <- 0\n    dacă comandă > PWM_MAX: comandă <- PWM_MAX\n\n    // acționare motor și raportare\n    aplic_PWM_motor(comandă)\n    afișez_LCD(\"RPM=\", viteză)\n    afișez_LCD(\"PWM=\", comandă)\n\nObservație:\n    PID trebuie rulat periodic, cu \\(\\Delta t\\) aproximativ constant.",
         "images": [
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v16_electrical_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v16_electrical_sei_style.png",
             "caption": "Diagramă interconectare electrică"
           },
           {
-            "path": "embedded_systems_exam_resolved_sei_style_package/embedded_exam_resolved_assets_sei_style/task3_diagrams/v16_program_flow_sei_style.png",
+            "path": "images/sei_style/task3_diagrams/v16_program_flow_sei_style.png",
             "caption": "Diagramă bloc program"
           }
         ]
