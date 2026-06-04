@@ -1,1 +1,1 @@
-export const DATA_URL = "embedded_systems_exam_resolved_sei_style_package/embedded_systems_exam_resolved_variants_sei_style.json";
+export const DATA_URL = "data/si_variants_exam.json";
